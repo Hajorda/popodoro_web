@@ -93,6 +93,58 @@
   nav.top .links { display: flex; gap: 4px; align-items: center; }
   nav.top .ctas { display: flex; gap: 8px; align-items: center; }
 
+  /* Hamburger — mobile only */
+  .nav-burger {
+    display: none; flex-direction: column; justify-content: center; gap: 5px;
+    width: 40px; height: 40px; border: none; background: none;
+    cursor: pointer; padding: 8px; border-radius: 10px;
+    transition: background .15s;
+  }
+  .nav-burger:hover { background: var(--surface-2); }
+  .nav-burger span {
+    display: block; height: 1.5px; border-radius: 2px;
+    background: var(--ink); transition: transform .25s, opacity .2s, width .25s;
+    transform-origin: center;
+  }
+  .nav-burger span:nth-child(1) { width: 22px; }
+  .nav-burger span:nth-child(2) { width: 16px; }
+  .nav-burger span:nth-child(3) { width: 22px; }
+  nav.top.menu-open .nav-burger span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); width: 22px; }
+  nav.top.menu-open .nav-burger span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  nav.top.menu-open .nav-burger span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); width: 22px; }
+
+  /* Mobile drawer */
+  .nav-drawer {
+    display: none; position: fixed; inset: 64px 0 0 0;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    z-index: 49; padding: 24px 24px 32px;
+    flex-direction: column; gap: 4px;
+    overflow-y: auto;
+    animation: drawer-in .22s cubic-bezier(.2,.7,.3,1);
+  }
+  @keyframes drawer-in {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  nav.top.menu-open ~ .nav-drawer { display: flex; }
+  .nav-drawer a.link {
+    font-size: 17px; font-weight: 600; color: var(--ink-2);
+    text-decoration: none; padding: 13px 16px; border-radius: 12px;
+    display: block; transition: background .12s, color .12s;
+  }
+  .nav-drawer a.link:hover { color: var(--ink); background: var(--surface-2); }
+  .nav-drawer .drawer-sep { height: 1px; background: var(--border); margin: 10px 0; }
+  .nav-drawer .drawer-ctas { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
+  .nav-drawer .drawer-ctas .btn { justify-content: center; padding: 14px 20px; font-size: 15px; }
+
+  @media (max-width: 760px) {
+    nav.top .links { display: none; }
+    nav.top .ctas  { display: none; }
+    .nav-burger    { display: flex; }
+    .container     { padding: 0 20px; }
+  }
+
   /* ── Buttons ────────────────────────────────────────────────────── */
   .btn {
     display: inline-flex; align-items: center; gap: 8px;
@@ -695,6 +747,7 @@
     display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr; gap: 32px;
   }
   @media (max-width: 900px) { footer .grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { footer .grid { grid-template-columns: 1fr; } }
   footer h5 { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; color: var(--ink-3); text-transform: uppercase; margin: 0 0 16px; }
   footer ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
   footer a { text-decoration: none; color: var(--ink-2); font-size: 14px; }
@@ -733,8 +786,26 @@
       <a class="btn ghost" href="#">Sign in</a>
       <a class="btn primary" href="#downloads">Get Popodoro</a>
     </div>
+    <!-- Hamburger — mobile only -->
+    <button class="nav-burger" id="nav-burger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+
+<!-- Mobile drawer -->
+<div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+  <a class="link" href="#features"  data-drawer-link>Features</a>
+  <a class="link" href="#together"  data-drawer-link>Together</a>
+  <a class="link" href="#downloads" data-drawer-link>Download</a>
+  <a class="link" href="#pricing"   data-drawer-link>Pricing</a>
+  <a class="link" href="#faq"       data-drawer-link>FAQ</a>
+  <div class="drawer-sep"></div>
+  <div class="drawer-ctas">
+    <a class="btn ghost"    href="#"          data-drawer-link>Sign in</a>
+    <a class="btn primary"  href="#downloads" data-drawer-link>Get Popodoro</a>
+  </div>
+</div>
 
 <!-- ════════════════ HERO ════════════════ -->
 <section class="hero">
@@ -1379,7 +1450,7 @@
     }
   })();
 
-  // Smooth scroll for anchor links
+  // Smooth scroll for anchor links (closes drawer too)
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', (e) => {
       const id = a.getAttribute('href');
@@ -1387,11 +1458,48 @@
         const el = document.querySelector(id);
         if (el) {
           e.preventDefault();
+          closeMenu();
           const top = el.getBoundingClientRect().top + window.scrollY - 64;
           window.scrollTo({ top, behavior: 'smooth' });
         }
       }
     });
+  });
+
+  // ── Mobile hamburger ───────────────────────────────────────────────
+  const burger = document.getElementById('nav-burger');
+  const drawer = document.getElementById('nav-drawer');
+
+  function closeMenu() {
+    nav.classList.remove('menu-open');
+    burger.setAttribute('aria-expanded', 'false');
+    drawer.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  function openMenu() {
+    nav.classList.add('menu-open');
+    burger.setAttribute('aria-expanded', 'true');
+    drawer.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  burger.addEventListener('click', () => {
+    nav.classList.contains('menu-open') ? closeMenu() : openMenu();
+  });
+
+  // Close on outside tap
+  document.addEventListener('click', (e) => {
+    if (nav.classList.contains('menu-open') &&
+        !nav.contains(e.target) &&
+        !drawer.contains(e.target)) {
+      closeMenu();
+    }
+  });
+
+  // Close when window grows past mobile breakpoint
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 760) closeMenu();
   });
 </script>
 
