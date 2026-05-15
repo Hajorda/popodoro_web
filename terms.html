@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Terms of Service — Popodoro</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#FBF8F2; --surface:#fff; --surface-2:#F3EEE5; --dim:#F7F1E5;
+    --ink:#1C1A17; --ink-2:#5C544B; --ink-3:#8E867C; --border:#E8E1D4;
+    --pop:#FFC857; --pop-deep:#E8A93A; --ember:#F26B4F; --sage:#7BB893;
+    --display:'Instrument Serif',Georgia,serif;
+    --ui:'Manrope',system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ui);line-height:1.65;-webkit-font-smoothing:antialiased}
+  a{color:var(--ink);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--pop)}
+  a:hover{text-decoration-color:var(--ink)}
+
+  nav.top{position:sticky;top:0;z-index:50;background:color-mix(in oklab,var(--bg) 92%, transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+  nav.top .inner{max-width:880px;margin:0 auto;padding:14px 32px;display:flex;justify-content:space-between;align-items:center}
+  nav.top .wm{font-family:var(--display);font-size:22px;letter-spacing:-0.02em;color:var(--ink);text-decoration:none;display:inline-flex;align-items:baseline;line-height:1}
+  nav.top .wm .o{position:relative;display:inline-block}
+  nav.top .wm .o::before{content:"";position:absolute;left:50%;top:-22%;transform:translateX(-50%);width:8px;height:8px;border-radius:50%;background:var(--pop);box-shadow:0 0 0 1.2px var(--ink)}
+  nav.top .wm .o-sp{visibility:hidden}
+  nav.top .wm .acc{color:var(--pop)}
+  nav.top a.back{font-size:13px;color:var(--ink-2);text-decoration:none;font-weight:600}
+
+  header.page{max-width:880px;margin:0 auto;padding:80px 32px 56px}
+  header.page .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;color:var(--ink-3);text-transform:uppercase}
+  header.page h1{font-family:var(--display);font-weight:400;font-size:clamp(48px,7vw,80px);letter-spacing:-0.025em;line-height:0.98;margin:18px 0 14px}
+  header.page h1 em{font-style:italic}
+  header.page .meta{font-family:var(--mono);font-size:12px;color:var(--ink-3);letter-spacing:0.06em;display:flex;gap:16px;flex-wrap:wrap}
+  header.page .meta span strong{color:var(--ink);font-weight:600}
+
+  .doc{max-width:880px;margin:0 auto;padding:0 32px 80px;display:grid;grid-template-columns:200px 1fr;gap:48px}
+  @media (max-width:780px){.doc{grid-template-columns:1fr;gap:24px}}
+  aside.toc{position:sticky;top:90px;align-self:start;font-size:13px}
+  @media (max-width:780px){aside.toc{position:relative;top:auto;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:14px}}
+  aside.toc h5{font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:0.16em;text-transform:uppercase;margin:0 0 14px}
+  aside.toc a{display:block;padding:6px 0;color:var(--ink-2);text-decoration:none;border-left:2px solid transparent;padding-left:12px;margin-left:-12px}
+  aside.toc a:hover{color:var(--ink);border-left-color:var(--pop)}
+
+  main.content{font-size:15px;color:var(--ink-2)}
+  main.content h2{font-family:var(--display);font-weight:400;color:var(--ink);font-size:30px;letter-spacing:-0.015em;margin:48px 0 14px;line-height:1.1}
+  main.content h2:first-child{margin-top:0}
+  main.content h2 .num{font-family:var(--mono);font-size:13px;color:var(--ink-3);letter-spacing:0.12em;margin-right:12px;vertical-align:middle}
+  main.content p{margin:0 0 14px}
+  main.content ul{padding-left:0;list-style:none;margin:8px 0 18px}
+  main.content ul li{padding-left:22px;position:relative;margin-bottom:8px}
+  main.content ul li::before{content:"";position:absolute;left:4px;top:11px;width:6px;height:6px;border-radius:50%;background:var(--pop)}
+  main.content strong{color:var(--ink)}
+  main.content .callout{
+    background:var(--surface);border:1px solid var(--border);border-radius:14px;
+    padding:18px 22px;margin:18px 0;font-size:14px;
+    display:flex;gap:14px;align-items:flex-start;
+  }
+  main.content .callout .icon{
+    width:32px;height:32px;border-radius:10px;background:var(--pop);color:var(--ink);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    font-weight:700;font-size:14px;
+  }
+  main.content .callout p{margin:0}
+
+  footer{border-top:1px solid var(--border);padding:32px 0;font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:0.06em;text-align:center}
+  footer a{color:var(--ink-2);text-decoration:none;margin:0 12px}
+  footer a.danger{color:var(--ember)}
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="inner">
+    <a class="wm" href="index.html">p<span class="o"><span class="o-sp">o</span></span>podoro<span class="acc">.</span></a>
+    <a class="back" href="index.html">← Back to home</a>
+  </div>
+</nav>
+
+<header class="page">
+  <div class="eyebrow">LEGAL · TERMS</div>
+  <h1>Terms of<br/><em>Service.</em></h1>
+  <div class="meta">
+    <span><strong>Effective:</strong> May 15, 2026</span>
+    <span><strong>Last updated:</strong> May 15, 2026</span>
+    <span><strong>Version:</strong> 3.0</span>
+  </div>
+</header>
+
+<div class="doc">
+  <aside class="toc">
+    <h5>On this page</h5>
+    <a href="#agreement">The deal</a>
+    <a href="#account">Your account</a>
+    <a href="#acceptable">Acceptable use</a>
+    <a href="#plus">Pop Plus & billing</a>
+    <a href="#together">Pop Together</a>
+    <a href="#content">Your content</a>
+    <a href="#availability">Availability</a>
+    <a href="#termination">Termination</a>
+    <a href="#warranty">Warranties</a>
+    <a href="#liability">Liability</a>
+    <a href="#law">Governing law</a>
+    <a href="#changes">Changes</a>
+  </aside>
+
+  <main class="content">
+    <div class="callout">
+      <div class="icon">🍿</div>
+      <p><strong>Plain English version:</strong> Use Popodoro to focus. Don't break it, don't abuse our infrastructure, don't be cruel to other users. Pay for Plus if you use it. We'll keep the lights on. If something goes wrong, we're not on the hook for your unsaved work — keep backups.</p>
+    </div>
+
+    <h2 id="agreement"><span class="num">01</span>The deal</h2>
+    <p>These Terms form a contract between you and Popworks, Inc. ("we", "us", "Popodoro") when you use any Popodoro product — including the apps, web app, website, and APIs. By creating an account or using Popodoro, you agree to these Terms and to the <a href="privacy.html">Privacy Policy</a>.</p>
+    <p>If you're using Popodoro on behalf of an organization, you confirm you have authority to bind that organization.</p>
+
+    <h2 id="account"><span class="num">02</span>Your account</h2>
+    <p>You don't need an account to use the free, local-only version of Popodoro. If you create one:</p>
+    <ul>
+      <li>You must be at least 13 years old (16 in the EU / UK).</li>
+      <li>You'll provide accurate sign-up info and keep it up to date.</li>
+      <li>You're responsible for keeping your password (and recovery code) safe.</li>
+      <li>You'll tell us if you suspect someone else has accessed your account.</li>
+    </ul>
+
+    <h2 id="acceptable"><span class="num">03</span>Acceptable use</h2>
+    <p>Don't use Popodoro to:</p>
+    <ul>
+      <li>Send unsolicited messages or harass other users in Pop Together rooms.</li>
+      <li>Reverse-engineer the app to extract data that isn't yours.</li>
+      <li>Run automated load against our APIs beyond reasonable client use.</li>
+      <li>Resell access, or strip our branding off the app and pass it off as your own.</li>
+      <li>Anything illegal under the laws that apply where you live.</li>
+    </ul>
+    <p>If you discover a security issue, please report it to <a href="mailto:security@popodoro.app">security@popodoro.app</a>. Good-faith research won't get you in trouble.</p>
+
+    <h2 id="plus"><span class="num">04</span>Pop Plus & billing</h2>
+    <p>Pop Plus is $3/month or $24/year. Student and teacher discounts knock 50% off with a verified school email.</p>
+    <ul>
+      <li><strong>Billing.</strong> Stripe processes payments. We never see your card number.</li>
+      <li><strong>Renewal.</strong> Plus auto-renews unless you cancel before the renewal date. You can cancel anytime in Settings → Account → Subscription.</li>
+      <li><strong>Refunds.</strong> If you cancel within 14 days of your first payment and haven't used Plus features beyond the trial, we'll refund you in full. After that, refunds are case-by-case — email <a href="mailto:hi@popodoro.app">hi@popodoro.app</a>.</li>
+      <li><strong>Price changes.</strong> We'll notify you 30 days before any price change and you can cancel before it takes effect.</li>
+      <li><strong>VAT / sales tax.</strong> Shown at checkout and on your receipt.</li>
+    </ul>
+
+    <h2 id="together"><span class="num">05</span>Pop Together</h2>
+    <p>Pop Together is a shared, real-time space. When you invite or accept someone as a buddy, they can see your live presence during co-focus sessions, your handle, and (if you allow it) your streak.</p>
+    <p>Be kind. Reactions are limited by design. If someone harasses you, block them in Settings → Privacy → Blocked. Reports go to <a href="mailto:abuse@popodoro.app">abuse@popodoro.app</a>; we respond within 48 hours.</p>
+
+    <h2 id="content"><span class="num">06</span>Your content</h2>
+    <p>Task names, tags, and notes you create in Popodoro belong to you. You grant us a limited license to store and transmit them solely so we can deliver the product to you (and to your buddies, if you share). We don't claim any ownership and we don't use your content to train AI models.</p>
+    <p>Pop's golden-hour predictions run on your device. We do not see your task names or tags.</p>
+
+    <h2 id="availability"><span class="num">07</span>Availability</h2>
+    <p>We aim for 99.9% uptime on sync and Pop Together. We post incidents at <a href="#">status.popodoro.app</a>. The offline app keeps working when sync is down — that's the whole point of offline-first.</p>
+
+    <h2 id="termination"><span class="num">08</span>Termination</h2>
+    <p>You can stop using Popodoro and delete your account at any time — <a href="delete-account.html">delete here</a> or in Settings.</p>
+    <p>We can suspend or terminate accounts that violate these Terms (especially harassment, fraud, or abuse). For non-emergency violations we'll give you a heads-up and a chance to fix things. If we terminate your account, you can still export your data for 30 days.</p>
+
+    <h2 id="warranty"><span class="num">09</span>Warranties</h2>
+    <p>Popodoro is provided <strong>"as is"</strong>. We do our best, but we don't promise the app will be uninterrupted, error-free, or perfectly tailored to your workflow. To the extent allowed by law, we disclaim implied warranties of merchantability, fitness for a particular purpose, and non-infringement.</p>
+
+    <h2 id="liability"><span class="num">10</span>Liability</h2>
+    <p>To the extent allowed by law, our total liability to you for any claim arising out of or relating to Popodoro will not exceed the amount you paid us in the 12 months before the claim, or $100, whichever is greater. We aren't liable for indirect, incidental, or consequential damages (e.g. lost productivity, lost streaks, missed deadlines).</p>
+    <p>Nothing in these Terms limits liability that can't be limited under applicable law.</p>
+
+    <h2 id="law"><span class="num">11</span>Governing law</h2>
+    <p>These Terms are governed by the laws of the State of California, USA, without regard to conflict-of-law rules. Disputes will be resolved in the state or federal courts of San Francisco County, California — except where consumer protection laws give you the right to sue locally.</p>
+
+    <h2 id="changes"><span class="num">12</span>Changes</h2>
+    <p>If we change these Terms materially, we'll let you know in-app and by email at least 30 days before the change takes effect. Continued use after that date means you accept the new Terms. If you don't, you can delete your account at any time.</p>
+
+    <h2 id="contact"><span class="num">13</span>Contact</h2>
+    <p>Questions? <a href="mailto:hi@popodoro.app">hi@popodoro.app</a>. We read every email. Real humans, no AI bouncers.</p>
+    <p>Popworks Inc., 2261 Market St #4521, San Francisco, CA 94114, USA.</p>
+  </main>
+</div>
+
+<footer>
+  © 2026 POPWORKS, INC.
+  <a href="index.html">HOME</a>
+  <a href="privacy.html">PRIVACY</a>
+  <a href="terms.html">TERMS</a>
+  <a href="delete-account.html" class="danger">DELETE ACCOUNT</a>
+</footer>
+
+</body>
+</html>

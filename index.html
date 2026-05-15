@@ -1,0 +1,1399 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Popodoro — your focus, popped.</title>
+<meta name="description" content="A calmer pomodoro timer. Meet Pop — the work buddy who notices your golden hours and gently nudges you in when you're at your best. Free on macOS, Windows, Linux, iOS and Android.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://popodoro.app/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://popodoro.app/">
+<meta property="og:site_name" content="Popodoro">
+<meta property="og:title" content="Popodoro — your focus, popped.">
+<meta property="og:description" content="A calmer pomodoro timer. Meet Pop — the work buddy who notices your golden hours and gently nudges you in when you're at your best.">
+<meta property="og:image" content="https://popodoro.app/og-image.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@popodoro">
+<meta name="twitter:title" content="Popodoro — your focus, popped.">
+<meta name="twitter:description" content="A calmer pomodoro timer. Meet Pop — the work buddy who notices your golden hours and gently nudges you in when you're at your best.">
+<meta name="twitter:image" content="https://popodoro.app/og-image.png">
+
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Popodoro",
+  "description": "A calmer pomodoro timer with AI-powered golden hours intelligence. Meet Pop, your work buddy.",
+  "url": "https://popodoro.app",
+  "applicationCategory": "ProductivityApplication",
+  "operatingSystem": "macOS, Windows, Linux, iOS, Android, Web",
+  "offers": [
+    { "@type": "Offer", "price": "0", "priceCurrency": "USD", "name": "Free" },
+    { "@type": "Offer", "price": "3", "priceCurrency": "USD", "name": "Pop Plus" }
+  ],
+  "publisher": { "@type": "Organization", "name": "Popworks, Inc." }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FBF8F2;
+    --surface: #FFFFFF;
+    --surface-2: #F3EEE5;
+    --dim: #F7F1E5;
+    --ink: #1C1A17;
+    --ink-2: #5C544B;
+    --ink-3: #8E867C;
+    --border: #E8E1D4;
+    --pop: #FFC857;
+    --pop-deep: #E8A93A;
+    --ember: #F26B4F;
+    --sage: #7BB893;
+    --lavender: #9A8FE8;
+    --bump: #FFF6E1;
+    --bump-edge: #F2E6C6;
+    --display: 'Instrument Serif', Georgia, serif;
+    --ui: 'Manrope', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: var(--ui); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  img { max-width: 100%; display: block; }
+  ::selection { background: var(--pop); color: var(--ink); }
+  .container { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+  .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; color: var(--ink-3); text-transform: uppercase; }
+  .display { font-family: var(--display); letter-spacing: -0.02em; line-height: 0.98; }
+  .italic { font-style: italic; }
+
+  /* ── Nav ───────────────────────────────────────────────────────────── */
+  nav.top {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in oklab, var(--bg) 92%, transparent);
+    backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid transparent;
+    transition: border-color .2s;
+  }
+  nav.top.scrolled { border-bottom-color: var(--border); }
+  nav.top .inner {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  nav.top a.link { font-size: 14px; color: var(--ink-2); text-decoration: none; padding: 8px 12px; border-radius: 8px; }
+  nav.top a.link:hover { color: var(--ink); background: var(--surface-2); }
+  nav.top .links { display: flex; gap: 4px; align-items: center; }
+  nav.top .ctas { display: flex; gap: 8px; align-items: center; }
+
+  /* ── Buttons ────────────────────────────────────────────────────── */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 18px; border-radius: 999px;
+    font-family: var(--ui); font-weight: 600; font-size: 14px;
+    border: none; cursor: pointer; text-decoration: none;
+    transition: transform .12s, box-shadow .15s;
+    letter-spacing: -0.005em;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn.primary { background: var(--ink); color: var(--bg); box-shadow: 0 1px 0 rgba(0,0,0,.1), 0 6px 20px -10px var(--ink); }
+  .btn.primary:hover { box-shadow: 0 1px 0 rgba(0,0,0,.1), 0 10px 26px -10px var(--ink); }
+  .btn.secondary { background: var(--surface); color: var(--ink); box-shadow: inset 0 0 0 1px var(--border); }
+  .btn.secondary:hover { background: var(--dim); }
+  .btn.ghost { background: transparent; color: var(--ink-2); }
+  .btn.ghost:hover { color: var(--ink); background: var(--surface-2); }
+  .btn.large { padding: 14px 24px; font-size: 15px; }
+
+  /* ── Wordmark ───────────────────────────────────────────────────── */
+  .wordmark {
+    font-family: var(--display); font-size: 30px; letter-spacing: -0.02em;
+    display: inline-flex; align-items: baseline; line-height: 0.9; color: var(--ink);
+  }
+  .wordmark .o {
+    position: relative; display: inline-block;
+  }
+  .wordmark .o::before {
+    content: ""; position: absolute; left: 50%; top: -22%;
+    transform: translateX(-50%);
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--pop);
+    box-shadow: 0 0 0 1.5px var(--ink);
+  }
+  .wordmark .o-spacer { visibility: hidden; }
+  .wordmark .accent { color: var(--pop); }
+
+  /* ── Mascot (CSS-only, scalable) ────────────────────────────────── */
+  .pop-mascot {
+    --pop-accent: var(--pop);
+    --pop-bump: var(--bump);
+    --pop-bump-edge: var(--bump-edge);
+    --pop-ink: var(--ink);
+    position: relative; width: 120px; height: 120px; display: inline-block;
+  }
+  .pop-mascot .shadow {
+    position: absolute; left: 14%; right: 14%; bottom: -2%;
+    height: 8%; border-radius: 50%; background: rgba(28,26,23,.1); filter: blur(2px);
+  }
+  .pop-mascot .bump {
+    position: absolute; border-radius: 50% 50% 46% 46% / 60% 60% 40% 40%;
+    background: linear-gradient(180deg, #fff 0%, var(--pop-bump) 70%, var(--pop-bump-edge) 100%);
+    box-shadow: inset 0 -3px 0 var(--pop-bump-edge);
+  }
+  .pop-mascot .bump.b1 { left: 14%; top: -2%; width: 34%; height: 34%; }
+  .pop-mascot .bump.b2 { left: 36%; top: -10%; width: 36%; height: 36%; }
+  .pop-mascot .bump.b3 { left: 58%; top: -2%; width: 30%; height: 30%; }
+  .pop-mascot .body {
+    position: absolute; left: 6%; top: 18%; right: 6%; bottom: 4%;
+    background: linear-gradient(180deg, color-mix(in oklab, var(--pop-accent) 90%, #fff) 0%, var(--pop-accent) 60%, color-mix(in oklab, var(--pop-accent) 92%, var(--pop-ink)) 100%);
+    border-radius: 38% 38% 42% 42% / 44% 44% 46% 46%;
+    box-shadow: inset 0 -6px 0 color-mix(in oklab, var(--pop-accent) 88%, var(--pop-ink)), inset 0 2px 0 color-mix(in oklab, var(--pop-accent) 80%, #fff);
+  }
+  .pop-mascot .cheek { position: absolute; width: 14%; height: 9%; top: 55%; border-radius: 50%; background: rgba(242,107,79,.32); filter: blur(1px); }
+  .pop-mascot .cheek.l { left: 12%; }
+  .pop-mascot .cheek.r { right: 12%; }
+  .pop-mascot .eye {
+    position: absolute; top: 48%; width: 10%; height: 12%;
+    background: var(--pop-ink); border-radius: 50%;
+  }
+  .pop-mascot .eye .glint {
+    position: absolute; top: 18%; left: 18%; width: 34%; height: 34%; border-radius: 50%; background: #fff;
+  }
+  .pop-mascot .eye.l { left: 32%; }
+  .pop-mascot .eye.r { left: 60%; }
+  .pop-mascot .mouth {
+    position: absolute; left: 42%; top: 68%; width: 16%; height: 8%;
+    border-bottom: 2.5px solid var(--pop-ink);
+    border-radius: 0 0 100% 100% / 0 0 100% 100%;
+  }
+  /* Focused mood */
+  .pop-mascot.focused .eye { width: 8%; height: 8%; }
+  .pop-mascot.focused .mouth { left: 46%; width: 8%; height: 2%; background: var(--pop-ink); border-bottom: 0; border-radius: 2px; top: 72%; }
+  /* Celebrating */
+  .pop-mascot.celebrating .eye { width: 14%; height: 10%; border-radius: 0; background: transparent; border-bottom: 3px solid var(--pop-ink); }
+  .pop-mascot.celebrating .eye .glint { display: none; }
+  .pop-mascot.celebrating .mouth {
+    width: 16%; height: 13%; background: var(--pop-ink); border-bottom: 0;
+    border-radius: 0 0 50% 50% / 0 0 100% 100%; top: 68%;
+  }
+  /* Resting */
+  .pop-mascot.resting .eye { background: transparent; height: 4%; width: 12%; border-top: 3px solid var(--pop-ink); border-radius: 50%; top: 52%; }
+  .pop-mascot.resting .eye.l { left: 30%; }
+  .pop-mascot.resting .eye.r { left: 58%; }
+  .pop-mascot.resting .eye .glint { display: none; }
+  .pop-mascot.resting .mouth { width: 8%; height: 6%; }
+
+  /* Floating wave */
+  .pop-mascot.wave {
+    animation: pop-wave 4s ease-in-out infinite;
+  }
+  @keyframes pop-wave {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-8px) rotate(2deg); }
+  }
+
+  /* ── Hero ───────────────────────────────────────────────────────── */
+  .hero {
+    position: relative;
+    padding: 56px 0 120px;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: ""; position: absolute; left: 50%; top: 0; transform: translateX(-50%);
+    width: 1200px; height: 900px;
+    background: radial-gradient(ellipse at center, color-mix(in oklab, var(--pop) 28%, transparent) 0%, transparent 55%);
+    pointer-events: none; z-index: 0;
+  }
+  .hero .inner { position: relative; z-index: 1; text-align: center; }
+  .hero .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px 6px 8px; border-radius: 999px;
+    background: var(--surface); border: 1px solid var(--border);
+    font-family: var(--mono); font-size: 11px; color: var(--ink-2);
+    letter-spacing: 0.06em;
+  }
+  .hero .badge .dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--ember);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--ember) 20%, transparent);
+  }
+  .hero h1 {
+    font-family: var(--display);
+    font-size: clamp(56px, 9vw, 128px); line-height: 0.92;
+    letter-spacing: -0.025em; margin: 24px 0 16px; font-weight: 400;
+  }
+  .hero h1 em { font-style: italic; }
+  .hero h1 .pop-word {
+    position: relative; display: inline-block;
+  }
+  .hero h1 .pop-word::after {
+    content: ""; position: absolute; left: 50%; transform: translateX(-50%);
+    bottom: -8px; width: 60%; height: 8px; border-radius: 4px;
+    background: var(--pop);
+  }
+  .hero p.sub {
+    font-size: clamp(16px, 1.7vw, 19px); color: var(--ink-2);
+    max-width: 580px; margin: 0 auto 32px; line-height: 1.55;
+  }
+  .hero .cta-row { display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .hero .guarantees {
+    margin-top: 28px;
+    font-family: var(--mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.14em;
+    text-transform: uppercase;
+    display: flex; justify-content: center; gap: 18px; flex-wrap: wrap;
+  }
+
+  /* Floating Pop in hero */
+  .hero .float-pop {
+    position: absolute; z-index: 0;
+    opacity: 0.95;
+  }
+  .hero .float-pop.fp1 { top: 30%; left: 8%; }
+  .hero .float-pop.fp2 { top: 18%; right: 6%; }
+  .hero .float-pop.fp3 { bottom: 18%; left: 16%; }
+  @media (max-width: 900px) { .hero .float-pop { display: none; } }
+
+  /* ── Product preview (mock app screen) ───────────────────────────── */
+  .preview {
+    margin-top: -60px;
+    padding: 0 0 80px;
+    position: relative;
+  }
+  .preview .frame {
+    max-width: 980px; margin: 0 auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    box-shadow:
+      0 30px 60px -30px rgba(28,26,23,.25),
+      0 60px 120px -40px rgba(255,200,87,.25);
+    overflow: hidden;
+  }
+  .preview .frame-bar {
+    height: 36px; background: var(--dim); border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; padding: 0 14px; gap: 6px;
+  }
+  .preview .frame-bar .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--surface-2); }
+  .preview .frame-bar .url {
+    margin: 0 auto; font-family: var(--mono); font-size: 11px; color: var(--ink-3);
+    background: var(--surface); padding: 4px 14px; border-radius: 999px; border: 1px solid var(--border);
+  }
+  /* Preview now shows: a calm "desktop wallpaper" inside the macOS window,
+     with a Popodoro menu-bar widget pinned top-right, and the mobile-style
+     app screen floating center as the main hero. The point: same app, same
+     UI, lives on every screen. */
+  .preview .stage {
+    position: relative;
+    min-height: 580px;
+    padding: 28px 32px 36px;
+    background:
+      radial-gradient(ellipse at 80% 10%, color-mix(in oklab, var(--pop) 18%, transparent) 0%, transparent 55%),
+      radial-gradient(ellipse at 10% 90%, color-mix(in oklab, var(--ember) 10%, transparent) 0%, transparent 60%),
+      linear-gradient(180deg, color-mix(in oklab, var(--pop) 6%, var(--dim)) 0%, var(--dim) 100%);
+    display: flex; align-items: center; justify-content: center; gap: 56px;
+    overflow: hidden;
+  }
+  /* Menu-bar widget: the dropdown Popodoro draws from the macOS menubar */
+  .preview .menubar-pop {
+    position: absolute; top: 18px; right: 24px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 14px;
+    box-shadow: 0 18px 40px -16px rgba(0,0,0,.22), 0 0 0 1px rgba(255,255,255,.5) inset;
+    width: 240px; z-index: 2;
+  }
+  .preview .menubar-pop::before {
+    content: ""; position: absolute; top: -7px; right: 28px; width: 12px; height: 12px;
+    background: var(--surface); border-left: 1px solid var(--border); border-top: 1px solid var(--border);
+    transform: rotate(45deg);
+  }
+  .preview .menubar-pop .label {
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em;
+    color: var(--ink-3); text-transform: uppercase; margin-bottom: 8px;
+  }
+  .preview .menubar-pop .mb-timer {
+    display: flex; align-items: baseline; gap: 6px;
+    font-family: var(--display); font-size: 30px; line-height: 1; letter-spacing: -0.02em;
+  }
+  .preview .menubar-pop .mb-timer .sub { font-family: var(--mono); font-size: 10px; color: var(--ink-3); letter-spacing: 0.06em; }
+  .preview .menubar-pop .task { font-family: var(--display); font-style: italic; font-size: 13px; color: var(--ink-2); margin-top: 4px; }
+  .preview .menubar-pop .mb-bar { height: 4px; border-radius: 2px; background: var(--surface-2); margin-top: 12px; overflow: hidden; }
+  .preview .menubar-pop .mb-bar .fill { width: 58%; height: 100%; background: var(--pop); }
+  .preview .menubar-pop .mb-actions { display: flex; gap: 6px; margin-top: 10px; }
+  .preview .menubar-pop .mb-actions button {
+    flex: 1; padding: 7px 0; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--surface); font-family: var(--ui); font-size: 11px; color: var(--ink);
+    font-weight: 600; cursor: pointer;
+  }
+  .preview .menubar-pop .mb-actions button.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+  /* Phone shell — iPhone-ish */
+  .preview .phone {
+    position: relative;
+    width: 280px;
+    height: 540px;
+    background: var(--ink);
+    border-radius: 44px;
+    padding: 10px;
+    box-shadow:
+      0 30px 60px -20px rgba(28,26,23,.4),
+      0 60px 100px -40px rgba(255,200,87,.2),
+      inset 0 0 0 1.5px color-mix(in oklab, var(--bg) 14%, var(--ink));
+  }
+  .preview .phone .screen {
+    width: 100%; height: 100%; background: var(--bg); border-radius: 34px; overflow: hidden;
+    display: flex; flex-direction: column;
+    position: relative;
+  }
+  .preview .phone .notch {
+    position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+    width: 90px; height: 22px; background: var(--ink); border-radius: 999px; z-index: 3;
+  }
+  .preview .phone .status-row {
+    padding: 16px 22px 0; display: flex; justify-content: space-between;
+    font-family: var(--mono); font-size: 11px; color: var(--ink-2); letter-spacing: 0.05em;
+    flex-shrink: 0;
+  }
+  .preview .phone .screen-inner {
+    flex: 1; padding: 28px 22px 18px; display: flex; flex-direction: column;
+  }
+  .preview .phone .greeting-row { display: flex; align-items: center; gap: 10px; }
+  .preview .phone .greeting-row .meta { display: flex; flex-direction: column; }
+  .preview .phone .date { font-family: var(--mono); font-size: 10px; color: var(--ink-3); letter-spacing: 0.08em; }
+  .preview .phone .hi { font-family: var(--display); font-size: 18px; line-height: 1.1; letter-spacing: -0.01em; }
+  .preview .phone .nudge {
+    margin-top: 14px; padding: 10px 12px; border-radius: 12px;
+    background: var(--surface); border: 1px solid var(--border);
+    display: flex; gap: 10px; align-items: center;
+    font-size: 11px; color: var(--ink-2); line-height: 1.4;
+  }
+  .preview .phone .nudge .bar { width: 4px; align-self: stretch; border-radius: 2px; background: var(--pop); }
+  .preview .phone .nudge b { color: var(--ink); }
+  .preview .phone .timer-zone {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  }
+  .preview .phone .ring { width: 190px; height: 190px; position: relative; }
+  .preview .phone .ring svg { display: block; transform: rotate(-90deg); }
+  .preview .phone .ring .time {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  .preview .phone .ring .time .num {
+    font-family: var(--display); font-size: 56px; line-height: 1; letter-spacing: -0.02em;
+  }
+  .preview .phone .ring .time .session {
+    font-family: var(--mono); font-size: 9px; color: var(--ink-3); letter-spacing: 0.14em; margin-bottom: 6px;
+  }
+  .preview .phone .task-row {
+    text-align: center; margin-top: 4px;
+  }
+  .preview .phone .task-row .task { font-family: var(--display); font-style: italic; font-size: 14px; color: var(--ink); }
+  .preview .phone .actions {
+    display: flex; gap: 8px; justify-content: center; margin-top: 14px;
+  }
+  .preview .phone .actions button {
+    border: none; padding: 9px 14px; border-radius: 999px;
+    font-family: var(--ui); font-size: 11px; font-weight: 600; cursor: pointer;
+  }
+  .preview .phone .actions .pause { background: var(--surface); color: var(--ink); border: 1px solid var(--border); }
+  .preview .phone .actions .primary { background: var(--ink); color: var(--bg); }
+  .preview .phone .actions .plus { background: var(--surface); color: var(--ink); border: 1px solid var(--border); }
+  .preview .phone .tabbar {
+    display: grid; grid-template-columns: repeat(4, 1fr); padding: 10px 12px 16px;
+    background: var(--surface); border-top: 1px solid var(--border);
+  }
+  .preview .phone .tabbar .tab { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 9px; color: var(--ink-3); }
+  .preview .phone .tabbar .tab.on { color: var(--ink); font-weight: 600; }
+  .preview .phone .tabbar .tab .glyph { font-size: 16px; }
+
+  /* Side caption — explains the dual surface */
+  .preview .side-note {
+    max-width: 280px;
+    z-index: 1;
+  }
+  .preview .side-note .kicker { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; color: var(--pop-deep); text-transform: uppercase; }
+  .preview .side-note h3 {
+    font-family: var(--display); font-size: 36px; line-height: 1.02; letter-spacing: -0.02em;
+    margin: 12px 0 14px; font-weight: 400;
+  }
+  .preview .side-note h3 em { font-style: italic; }
+  .preview .side-note p { font-size: 14px; color: var(--ink-2); line-height: 1.55; margin: 0 0 14px; }
+  .preview .side-note .platforms {
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .preview .side-note .platforms span {
+    padding: 5px 10px; border-radius: 999px;
+    background: var(--surface); border: 1px solid var(--border);
+    font-family: var(--mono); font-size: 10px; color: var(--ink-2); letter-spacing: 0.08em; text-transform: uppercase;
+  }
+
+  @media (max-width: 880px) {
+    .preview .stage { flex-direction: column; padding: 24px 18px 32px; gap: 32px; min-height: 0; }
+    .preview .menubar-pop { position: static; width: 100%; max-width: 320px; margin: 0 auto; }
+    .preview .menubar-pop::before { display: none; }
+    .preview .side-note { text-align: center; }
+  }
+
+  /* ── Section common ─────────────────────────────────────────────── */
+  section.s { padding: 110px 0; position: relative; }
+  section.s .head { text-align: center; margin-bottom: 56px; }
+  section.s .head h2 {
+    font-family: var(--display); font-size: clamp(40px, 6vw, 64px); line-height: 1.02;
+    letter-spacing: -0.02em; margin: 14px 0 12px; font-weight: 400;
+  }
+  section.s .head h2 em { font-style: italic; }
+  section.s .head p { color: var(--ink-2); max-width: 580px; margin: 0 auto; font-size: 16px; line-height: 1.55; }
+
+  /* ── Features grid ─────────────────────────────────────────────── */
+  .features { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+  .feat {
+    border: 1px solid var(--border); border-radius: 24px;
+    background: var(--surface); padding: 28px;
+    display: flex; flex-direction: column; gap: 14px;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .feat:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -16px rgba(0,0,0,.15); }
+  .feat.col-3 { grid-column: span 3; }
+  .feat.col-2 { grid-column: span 2; }
+  .feat.col-4 { grid-column: span 4; }
+  .feat.col-6 { grid-column: span 6; }
+  @media (max-width: 900px) { .features { grid-template-columns: 1fr; } .feat.col-3, .feat.col-2, .feat.col-4, .feat.col-6 { grid-column: span 1; } }
+  .feat .kicker { font-family: var(--mono); font-size: 10px; color: var(--pop-deep); letter-spacing: 0.16em; text-transform: uppercase; }
+  .feat h3 { font-family: var(--display); font-size: 30px; line-height: 1.05; letter-spacing: -0.015em; margin: 0; font-weight: 400; }
+  .feat h3 em { font-style: italic; }
+  .feat p { color: var(--ink-2); font-size: 14px; line-height: 1.6; margin: 0; }
+  .feat .visual {
+    background: var(--dim); border-radius: 16px; padding: 20px; margin-top: auto;
+    min-height: 160px; display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+
+  /* Feature visuals */
+  .vis-nudge {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 12px;
+    box-shadow: 0 8px 24px -12px rgba(0,0,0,.12);
+  }
+  .vis-nudge .bar { width: 4px; align-self: stretch; border-radius: 2px; background: var(--pop); }
+  .vis-nudge .txt { font-size: 13px; color: var(--ink-2); line-height: 1.4; }
+  .vis-nudge .txt b { color: var(--ink); }
+
+  .vis-heatmap {
+    display: grid; grid-template-columns: repeat(15, 1fr); gap: 3px; width: 100%;
+  }
+  .vis-heatmap .cell { aspect-ratio: 1; border-radius: 3px; background: var(--surface-2); }
+
+  .vis-together { display: flex; gap: -12px; align-items: flex-end; justify-content: center; }
+  .vis-together > * { margin: 0 -10px; }
+
+  .vis-timer {
+    position: relative;
+  }
+  .vis-timer .num { font-family: var(--display); font-size: 60px; letter-spacing: -0.02em; color: var(--ink); line-height: 1; }
+  .vis-timer .dots {
+    display: grid; grid-template-columns: repeat(12, 1fr); gap: 4px; margin-top: 14px;
+  }
+  .vis-timer .dots .d { aspect-ratio: 1; border-radius: 50%; background: var(--surface-2); }
+  .vis-timer .dots .d.on { background: var(--pop); }
+
+  .vis-privacy {
+    display: flex; flex-direction: column; gap: 8px; width: 100%;
+  }
+  .vis-privacy .row {
+    display: flex; align-items: center; gap: 10px; padding: 9px 12px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    font-size: 12px; color: var(--ink-2);
+  }
+  .vis-privacy .check {
+    width: 16px; height: 16px; border-radius: 50%; background: var(--sage);
+    color: var(--bg); display: inline-flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 700; flex-shrink: 0;
+  }
+
+  .vis-rhythm {
+    width: 100%;
+    height: 14px; border-radius: 7px; background: var(--surface-2); display: flex;
+    overflow: hidden;
+  }
+  .vis-rhythm > div:nth-child(1) { flex: 25; background: var(--pop); }
+  .vis-rhythm > div:nth-child(2) { flex: 5; background: var(--sage); }
+  .vis-rhythm > div:nth-child(3) { flex: 25; background: var(--pop); }
+  .vis-rhythm > div:nth-child(4) { flex: 5; background: var(--sage); }
+  .vis-rhythm > div:nth-child(5) { flex: 25; background: var(--pop); }
+  .vis-rhythm > div:nth-child(6) { flex: 15; background: var(--lavender); }
+
+  /* ── Downloads ──────────────────────────────────────────────────── */
+  .downloads-bg {
+    background: var(--ink);
+    color: var(--bg);
+    border-radius: 32px;
+    padding: 80px 56px 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .downloads-bg::before {
+    content: ""; position: absolute; right: -100px; bottom: -100px;
+    width: 500px; height: 500px; border-radius: 50%;
+    background: radial-gradient(circle at center, color-mix(in oklab, var(--pop) 25%, transparent), transparent 60%);
+  }
+  .downloads-bg .head { position: relative; z-index: 1; }
+  .downloads-bg .head .eyebrow { color: var(--pop); }
+  .downloads-bg .head h2 { color: var(--bg); }
+  .downloads-bg .head p { color: color-mix(in oklab, var(--bg) 70%, transparent); }
+  .download-grid {
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px;
+    margin-top: 48px;
+  }
+  @media (max-width: 980px) { .download-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .download-grid { grid-template-columns: 1fr; } }
+  .dl-card {
+    background: color-mix(in oklab, var(--bg) 8%, var(--ink));
+    border: 1px solid color-mix(in oklab, var(--bg) 15%, var(--ink));
+    border-radius: 20px; padding: 22px; cursor: pointer;
+    transition: transform .15s, border-color .15s, background .15s;
+    display: flex; flex-direction: column; gap: 16px;
+    text-decoration: none; color: inherit;
+  }
+  .dl-card:hover { transform: translateY(-3px); border-color: var(--pop); background: color-mix(in oklab, var(--bg) 12%, var(--ink)); }
+  .dl-card .glyph {
+    width: 48px; height: 48px; border-radius: 14px;
+    background: color-mix(in oklab, var(--bg) 12%, var(--ink));
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--display); font-size: 26px; color: var(--bg);
+  }
+  .dl-card .plat-name { font-family: var(--display); font-size: 24px; letter-spacing: -0.015em; line-height: 1; }
+  .dl-card .plat-meta { font-family: var(--mono); font-size: 10px; color: color-mix(in oklab, var(--bg) 50%, transparent); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+  .dl-card .cta {
+    margin-top: auto;
+    font-size: 13px; font-weight: 600; color: var(--pop);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .dl-card.featured { background: var(--pop); color: var(--ink); border-color: var(--pop); }
+  .dl-card.featured .glyph { background: var(--ink); color: var(--pop); }
+  .dl-card.featured .plat-meta { color: color-mix(in oklab, var(--ink) 60%, transparent); }
+  .dl-card.featured .cta { color: var(--ink); }
+
+  /* ── Together (split) ───────────────────────────────────────────── */
+  .split {
+    display: grid; grid-template-columns: 1.1fr 1fr; gap: 64px; align-items: center;
+  }
+  @media (max-width: 900px) { .split { grid-template-columns: 1fr; gap: 32px; } }
+  .split .copy h2 { font-family: var(--display); font-size: clamp(38px, 5vw, 56px); line-height: 1.02; letter-spacing: -0.02em; margin: 14px 0 18px; font-weight: 400; }
+  .split .copy h2 em { font-style: italic; }
+  .split .copy p { color: var(--ink-2); font-size: 16px; line-height: 1.6; margin-bottom: 20px; }
+  .split .visual-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 24px; padding: 28px;
+    box-shadow: 0 20px 50px -30px rgba(28,26,23,.2);
+  }
+  .buddy-row {
+    display: flex; align-items: center; gap: 12px; padding: 12px;
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 14px; margin-bottom: 8px; position: relative; overflow: hidden;
+  }
+  .buddy-row .fill {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    background: color-mix(in oklab, var(--pop) 10%, transparent);
+  }
+  .buddy-row .av {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--dim); display: flex; align-items: center; justify-content: center;
+    border: 2px solid var(--ember); flex-shrink: 0; position: relative;
+  }
+  .buddy-row .av.lav { border-color: var(--lavender); }
+  .buddy-row .av.pop-ring { border-color: var(--pop); }
+  .buddy-row .meta { flex: 1; min-width: 0; position: relative; }
+  .buddy-row .name { font-size: 13px; font-weight: 600; }
+  .buddy-row .task { font-family: var(--display); font-style: italic; font-size: 12px; color: var(--ink-2); margin-top: 2px; }
+  .buddy-row .time { font-family: var(--mono); font-size: 12px; font-weight: 600; position: relative; }
+
+  /* ── Principles ─────────────────────────────────────────────────── */
+  .principles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  @media (max-width: 900px) { .principles { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .principles { grid-template-columns: 1fr; } }
+  .principle {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 18px; padding: 22px;
+  }
+  .principle .k { font-family: var(--mono); font-size: 11px; color: var(--pop-deep); letter-spacing: 0.12em; }
+  .principle h4 { font-family: var(--display); font-size: 22px; letter-spacing: -0.01em; margin: 8px 0 10px; font-weight: 400; }
+  .principle h4 em { font-style: italic; }
+  .principle p { color: var(--ink-2); font-size: 13px; line-height: 1.55; margin: 0; }
+
+  /* ── Pricing ────────────────────────────────────────────────────── */
+  .pricing { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; max-width: 880px; margin: 0 auto; }
+  @media (max-width: 720px) { .pricing { grid-template-columns: 1fr; } }
+  .plan {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 24px; padding: 32px;
+    display: flex; flex-direction: column; gap: 18px;
+  }
+  .plan.featured {
+    background: var(--ink); color: var(--bg); border-color: var(--ink);
+    position: relative;
+  }
+  .plan.featured::before {
+    content: "POP'S PICK"; position: absolute; top: 16px; right: 16px;
+    font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.16em;
+    background: var(--pop); color: var(--ink); padding: 4px 10px; border-radius: 999px;
+  }
+  .plan h3 { font-family: var(--display); font-size: 32px; letter-spacing: -0.01em; margin: 0; font-weight: 400; }
+  .plan .price { font-family: var(--display); font-size: 56px; letter-spacing: -0.02em; line-height: 1; }
+  .plan .price small { font-family: var(--ui); font-size: 14px; color: var(--ink-3); font-weight: 500; margin-left: 4px; }
+  .plan.featured .price small { color: color-mix(in oklab, var(--bg) 60%, transparent); }
+  .plan ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  .plan li { font-size: 14px; display: flex; align-items: flex-start; gap: 8px; color: var(--ink-2); }
+  .plan.featured li { color: color-mix(in oklab, var(--bg) 75%, transparent); }
+  .plan li::before {
+    content: "•"; color: var(--pop); flex-shrink: 0; font-weight: 700; margin-top: -2px;
+  }
+
+  /* ── FAQ ────────────────────────────────────────────────────────── */
+  .faq { max-width: 720px; margin: 0 auto; }
+  .faq details {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 18px 22px; margin-bottom: 8px;
+  }
+  .faq summary {
+    cursor: pointer; font-weight: 600; font-size: 16px;
+    display: flex; justify-content: space-between; align-items: center;
+    list-style: none;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; font-family: var(--display); font-size: 24px; color: var(--ink-3); transition: transform .2s; }
+  .faq details[open] summary::after { transform: rotate(45deg); }
+  .faq details p { margin: 12px 0 0; color: var(--ink-2); font-size: 14px; line-height: 1.6; }
+
+  /* ── CTA strip ──────────────────────────────────────────────────── */
+  .cta-strip {
+    text-align: center; padding: 120px 0;
+    position: relative; overflow: hidden;
+  }
+  .cta-strip::before {
+    content: ""; position: absolute; left: 50%; top: 0; transform: translateX(-50%);
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, color-mix(in oklab, var(--pop) 30%, transparent), transparent 60%);
+    z-index: 0;
+  }
+  .cta-strip .inner { position: relative; z-index: 1; }
+  .cta-strip h2 { font-family: var(--display); font-size: clamp(48px, 8vw, 96px); line-height: 1; letter-spacing: -0.025em; margin: 0 0 16px; font-weight: 400; }
+  .cta-strip h2 em { font-style: italic; }
+  .cta-strip p { color: var(--ink-2); font-size: 17px; margin-bottom: 36px; }
+
+  /* ── Footer ─────────────────────────────────────────────────────── */
+  footer {
+    background: var(--surface); border-top: 1px solid var(--border);
+    padding: 64px 0 32px;
+  }
+  footer .grid {
+    display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr; gap: 32px;
+  }
+  @media (max-width: 900px) { footer .grid { grid-template-columns: 1fr 1fr; } }
+  footer h5 { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; color: var(--ink-3); text-transform: uppercase; margin: 0 0 16px; }
+  footer ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  footer a { text-decoration: none; color: var(--ink-2); font-size: 14px; }
+  footer a:hover { color: var(--ink); }
+  footer a.danger { color: var(--ember); }
+  footer .brand-blurb { font-size: 14px; color: var(--ink-2); line-height: 1.6; max-width: 280px; margin-top: 16px; }
+  footer .bottom {
+    margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.06em;
+  }
+  footer .bottom .legal { display: flex; gap: 16px; }
+  footer .bottom .legal a { font-family: var(--mono); font-size: 11px; }
+  @media (max-width: 600px) { footer .bottom { flex-direction: column; gap: 14px; text-align: center; } }
+
+  /* utilities */
+  .row-center { display: flex; align-items: center; justify-content: center; }
+</style>
+</head>
+<body>
+
+<!-- ════════════════ NAV ════════════════ -->
+<nav class="top" id="topnav">
+  <div class="container inner">
+    <a href="#" style="text-decoration: none;" class="wordmark-link">
+      <span class="wordmark">p<span class="o"><span class="o-spacer">o</span></span>podoro<span class="accent">.</span></span>
+    </a>
+    <div class="links">
+      <a class="link" href="#features">Features</a>
+      <a class="link" href="#together">Together</a>
+      <a class="link" href="#downloads">Download</a>
+      <a class="link" href="#pricing">Pricing</a>
+      <a class="link" href="#faq">FAQ</a>
+    </div>
+    <div class="ctas">
+      <a class="btn ghost" href="#">Sign in</a>
+      <a class="btn primary" href="#downloads">Get Popodoro</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════════ HERO ════════════════ -->
+<section class="hero">
+  <div class="float-pop fp1">
+    <div class="pop-mascot resting wave" style="width: 80px; height: 80px;">
+      <div class="shadow"></div><div class="bump b1"></div><div class="bump b2"></div><div class="bump b3"></div>
+      <div class="body"></div><div class="cheek l"></div><div class="cheek r"></div>
+      <div class="eye l"><div class="glint"></div></div><div class="eye r"><div class="glint"></div></div><div class="mouth"></div>
+    </div>
+  </div>
+  <div class="float-pop fp2">
+    <div class="pop-mascot focused wave" style="width: 100px; height: 100px; --pop-accent: var(--ember); animation-delay: -2s;">
+      <div class="shadow"></div><div class="bump b1"></div><div class="bump b2"></div><div class="bump b3"></div>
+      <div class="body"></div><div class="cheek l"></div><div class="cheek r"></div>
+      <div class="eye l"><div class="glint"></div></div><div class="eye r"><div class="glint"></div></div><div class="mouth"></div>
+    </div>
+  </div>
+  <div class="float-pop fp3">
+    <div class="pop-mascot celebrating wave" style="width: 70px; height: 70px; --pop-accent: var(--lavender); animation-delay: -1s;">
+      <div class="shadow"></div><div class="bump b1"></div><div class="bump b2"></div><div class="bump b3"></div>
+      <div class="body"></div><div class="cheek l"></div><div class="cheek r"></div>
+      <div class="eye l"><div class="glint"></div></div><div class="eye r"><div class="glint"></div></div><div class="mouth"></div>
+    </div>
+  </div>
+
+  <div class="container inner">
+    <div class="badge">
+      <span class="dot"></span>
+      <span>v1.0 · OUT NOW ON 5 PLATFORMS</span>
+    </div>
+    <h1>
+      your focus,<br/>
+      <em><span class="pop-word">popped</span>.</em>
+    </h1>
+    <p class="sub">
+      A calmer pomodoro. Meet <strong>Pop</strong> — the work buddy who notices your golden hours
+      and gently nudges you in when you're at your best.
+    </p>
+    <div class="cta-row">
+      <a class="btn primary large" href="#downloads">Get Popodoro free</a>
+      <a class="btn secondary large" href="#features">See how it works ›</a>
+    </div>
+    <div class="guarantees">
+      <span>✦ Offline-first</span>
+      <span>✦ No streak shame</span>
+      <span>✦ No ads, ever</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ APP PREVIEW ════════════════ -->
+<div class="preview">
+  <div class="container">
+    <div class="frame">
+      <div class="frame-bar">
+        <div class="dot" style="background: #f26b4f;"></div>
+        <div class="dot" style="background: #ffc857;"></div>
+        <div class="dot" style="background: #7bb893;"></div>
+        <div class="url">pop.do/focus</div>
+      </div>
+      <div class="stage">
+        <!-- Menu-bar widget — Popodoro on desktop lives in the menubar. -->
+        <div class="menubar-pop">
+          <div class="label">POPODORO · MENU BAR</div>
+          <div class="mb-timer">14:32<span class="sub">/ 25:00</span></div>
+          <div class="task">draft Q3 roadmap</div>
+          <div class="mb-bar"><div class="fill"></div></div>
+          <div class="mb-actions">
+            <button>⏸ Pause</button>
+            <button class="primary">Open</button>
+          </div>
+        </div>
+
+        <!-- Side caption -->
+        <div class="side-note">
+          <div class="kicker">ONE APP · EVERY SCREEN</div>
+          <h3>Same Pop,<br/><em>five surfaces.</em></h3>
+          <p>The phone is home. On desktop, Pop tucks into the menu bar and only steps forward when you need him.</p>
+          <div class="platforms">
+            <span>iOS</span><span>Android</span><span>macOS</span><span>Windows</span><span>Linux</span><span>Web</span>
+          </div>
+        </div>
+
+        <!-- The phone -->
+        <div class="phone">
+          <div class="screen">
+            <div class="notch"></div>
+            <div class="status-row">
+              <span>9:42</span>
+              <span style="letter-spacing:0">●●● ▮▮</span>
+            </div>
+            <div class="screen-inner">
+              <div class="greeting-row">
+                <div class="pop-mascot" style="width: 36px; height: 36px;">
+                  <div class="bump b1"></div><div class="bump b2"></div><div class="bump b3"></div>
+                  <div class="body"></div><div class="cheek l"></div><div class="cheek r"></div>
+                  <div class="eye l"><div class="glint"></div></div><div class="eye r"><div class="glint"></div></div><div class="mouth"></div>
+                </div>
+                <div class="meta">
+                  <span class="date">TUE · MAY 13</span>
+                  <span class="hi">morning, Alex.</span>
+                </div>
+              </div>
+              <div class="nudge">
+                <div class="bar"></div>
+                <div>You're usually a <b>beast at 10:14 am</b>. Want to pop one?</div>
+              </div>
+
+              <div class="timer-zone">
+                <div class="ring">
+                  <svg width="190" height="190" viewBox="0 0 190 190">
+                    <circle cx="95" cy="95" r="86" stroke="var(--surface-2)" stroke-width="10" fill="none" />
+                    <circle cx="95" cy="95" r="86" stroke="var(--pop)" stroke-width="10" fill="none"
+                      stroke-dasharray="540.35" stroke-dashoffset="313.4" stroke-linecap="round" />
+                  </svg>
+                  <div class="time">
+                    <div class="session">FOCUS · 02 / 04</div>
+                    <div class="num">14:32</div>
+                  </div>
+                </div>
+                <div class="task-row">
+                  <div class="task">draft Q3 roadmap</div>
+                </div>
+                <div class="actions">
+                  <button class="pause">⏸</button>
+                  <button class="primary">Continue</button>
+                  <button class="plus">+5</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="tabbar">
+              <div class="tab on"><span class="glyph">◐</span>Focus</div>
+              <div class="tab"><span class="glyph">▦</span>Today</div>
+              <div class="tab"><span class="glyph">◍</span>Buddies</div>
+              <div class="tab"><span class="glyph">∿</span>Stats</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ FEATURES ════════════════ -->
+<section class="s" id="features">
+  <div class="container">
+    <div class="head">
+      <div class="eyebrow">FEATURES</div>
+      <h2>A pomodoro app that<br/><em>notices you back.</em></h2>
+      <p>Most timers wait for you to start. Pop watches your rhythm and surfaces your best windows — without nagging, scoring, or shaming.</p>
+    </div>
+
+    <div class="features">
+      <!-- Big — Golden Hours -->
+      <div class="feat col-4">
+        <div class="kicker">01 · INTELLIGENCE</div>
+        <h3>Pop knows when<br/>you're a <em>beast</em>.</h3>
+        <p>After your first week, Pop maps your golden hours — the windows where you finish what you start — and gently nudges you in just before they open.</p>
+        <div class="visual">
+          <div class="vis-nudge">
+            <div class="bar"></div>
+            <div class="pop-mascot" style="width: 36px; height: 36px; flex-shrink: 0;">
+              <div class="bump b1"></div><div class="bump b2"></div><div class="bump b3"></div>
+              <div class="body"></div><div class="cheek l"></div><div class="cheek r"></div>
+              <div class="eye l"><div class="glint"></div></div><div class="eye r"><div class="glint"></div></div><div class="mouth"></div>
+            </div>
+            <div class="txt">You're usually a <b>beast at 10:14 am</b>. Want to pop one before the day fills up?</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Heatmap -->
+      <div class="feat col-2">
+        <div class="kicker">02 · STATS</div>
+        <h3>Your rhythm,<br/>visible.</h3>
+        <p>Day × hour heatmap. Streak. Tag breakdown. Calm dashboard, no leaderboards.</p>
+        <div class="visual">
+          <div class="vis-heatmap" id="vis-heatmap"></div>
+        </div>
+      </div>
+
+      <!-- Timer styles -->
+      <div class="feat col-2">
+        <div class="kicker">03 · THE TIMER</div>
+        <h3>Four timer<br/>styles.</h3>
+        <p>Ring, dots, kernel-fill, or pure numerals. Pick the one that quiets your brain.</p>
+        <div class="visual" style="flex-direction: column; gap: 6px;">
+          <div class="vis-timer">
+            <div class="num">14:32</div>
+            <div class="dots">
+              <div class="d on"></div><div class="d on"></div><div class="d on"></div><div class="d on"></div>
+              <div class="d on"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+              <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pop Together -->
+      <div class="feat col-4">
+        <div class="kicker">04 · POP TOGETHER</div>
+        <h3>Co-focus with<br/>your <em>buddies</em>.</h3>
+        <p>Same timer, same 25 minutes, real-time presence. Reactions stay muted while everyone's focusing — celebrations land together, after.</p>
+        <div class="visual">
+          <div class="vis-together">
+            <div class="pop-mascot celebrating" style="width: 70px; height: 70px; --pop-accent: var(--ember);">
+              <div class="shadow"></div><div class="bump b1"></div><div class="bump b2"></div><div class="bump b3"></div>
+              <div class="body"></div><div class="cheek l"></div><div class="cheek r"></div>
+              <div class="eye l"></div><div class="eye r"></div><div class="mouth"></div>
+            </div>
+            <div class="pop-mascot celebrating" style="width: 88px; height: 88px;">
+              <div class="shadow"></div><div class="bump b1"></div><div class="bump b2"></div><div class="bump b3"></div>
+              <div class="body"></div><div class="cheek l"></div><div class="cheek r"></div>
+              <div class="eye l"></div><div class="eye r"></div><div class="mouth"></div>
+            </div>
+            <div class="pop-mascot celebrating" style="width: 70px; height: 70px; --pop-accent: var(--lavender);">
+              <div class="shadow"></div><div class="bump b1"></div><div class="bump b2"></div><div class="bump b3"></div>
+              <div class="body"></div><div class="cheek l"></div><div class="cheek r"></div>
+              <div class="eye l"></div><div class="eye r"></div><div class="mouth"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Privacy -->
+      <div class="feat col-3">
+        <div class="kicker">05 · PRIVACY</div>
+        <h3>Offline-first.<br/>Sync is <em>opt-in</em>.</h3>
+        <p>Sessions live on your device by default. If you turn on sync, it's end-to-end encrypted and we never see your tasks.</p>
+        <div class="visual">
+          <div class="vis-privacy">
+            <div class="row"><span class="check">✓</span>No ads · no trackers · no third parties</div>
+            <div class="row"><span class="check">✓</span>End-to-end encrypted sync (opt-in)</div>
+            <div class="row"><span class="check">✓</span>Export or delete your data anytime</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rhythm visualisation -->
+      <div class="feat col-3">
+        <div class="kicker">06 · CUSTOM RHYTHM</div>
+        <h3>Bend the<br/>cadence to <em>you</em>.</h3>
+        <p>15/25/50/90-minute focus blocks. Custom short and long breaks. Soft-start that gives you 3 seconds to settle in.</p>
+        <div class="visual" style="flex-direction: column; gap: 14px;">
+          <div class="vis-rhythm"><div></div><div></div><div></div><div></div><div></div><div></div></div>
+          <div style="display: flex; justify-content: space-between; width: 100%; font-family: var(--mono); font-size: 10px; color: var(--ink-3); letter-spacing: 0.08em;">
+            <span>FOCUS · 25</span><span>BREAK · 5</span><span>FOCUS · 25</span><span>LONG · 15</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ TOGETHER (DEEP DIVE) ════════════════ -->
+<section class="s" id="together" style="background: var(--dim); padding-top: 100px; padding-bottom: 100px;">
+  <div class="container split">
+    <div class="copy">
+      <div class="eyebrow">POP TOGETHER · NEW</div>
+      <h2>Focus is better<br/>with a <em>friend.</em></h2>
+      <p>Send a link, pick a length, pop a session together. See your buddies' progress as a soft tint, not a leaderboard. Reactions queue up while everyone's working, then land at the end.</p>
+      <p style="color: var(--ink-3); font-size: 14px;">2–6 people per room. Mobile, desktop, web — all in sync.</p>
+      <div style="display: flex; gap: 10px; margin-top: 14px;">
+        <a class="btn primary" href="#downloads">Get the app</a>
+        <a class="btn ghost" href="#">Read more ›</a>
+      </div>
+    </div>
+    <div class="visual-card">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+        <span style="width: 7px; height: 7px; border-radius: 50%; background: var(--ember);"></span>
+        <span style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; color: var(--ember);">LIVE · 3 FOCUSING · 25 MIN</span>
+      </div>
+      <div class="buddy-row">
+        <div class="fill" style="width: 62%;"></div>
+        <div class="av pop-ring">
+          <div class="pop-mascot focused" style="width: 30px; height: 30px;">
+            <div class="bump b1"></div><div class="bump b2"></div><div class="bump b3"></div>
+            <div class="body"></div><div class="cheek l"></div><div class="cheek r"></div>
+            <div class="eye l"></div><div class="eye r"></div><div class="mouth"></div>
+          </div>
+        </div>
+        <div class="meta">
+          <div class="name">you</div>
+          <div class="task">draft Q3 roadmap</div>
+        </div>
+        <div class="time">09:28</div>
+      </div>
+      <div class="buddy-row">
+        <div class="fill" style="width: 45%; background: color-mix(in oklab, var(--ember) 14%, transparent);"></div>
+        <div class="av" style="--pop-accent: var(--ember);">
+          <div class="pop-mascot focused" style="width: 30px; height: 30px; --pop-accent: var(--ember);">
+            <div class="bump b1"></div><div class="bump b2"></div><div class="bump b3"></div>
+            <div class="body"></div><div class="cheek l"></div><div class="cheek r"></div>
+            <div class="eye l"></div><div class="eye r"></div><div class="mouth"></div>
+          </div>
+        </div>
+        <div class="meta">
+          <div class="name">maya</div>
+          <div class="task">editing pitch deck</div>
+        </div>
+        <div class="time">12:18</div>
+      </div>
+      <div class="buddy-row">
+        <div class="fill" style="width: 82%; background: color-mix(in oklab, var(--lavender) 14%, transparent);"></div>
+        <div class="av lav">
+          <div class="pop-mascot focused" style="width: 30px; height: 30px; --pop-accent: var(--lavender);">
+            <div class="bump b1"></div><div class="bump b2"></div><div class="bump b3"></div>
+            <div class="body"></div><div class="cheek l"></div><div class="cheek r"></div>
+            <div class="eye l"></div><div class="eye r"></div><div class="mouth"></div>
+          </div>
+        </div>
+        <div class="meta">
+          <div class="name">arjun</div>
+          <div class="task">study · organic chem</div>
+        </div>
+        <div class="time">04:42</div>
+      </div>
+      <div style="margin-top: 14px; padding: 12px 14px; border-radius: 10px; background: var(--dim); font-size: 12px; color: var(--ink-3); font-family: var(--mono); letter-spacing: 0.08em; text-align: center;">
+        REACTIONS UNLOCK AT 0:00
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ DOWNLOADS ════════════════ -->
+<section class="s" id="downloads">
+  <div class="container">
+    <div class="downloads-bg">
+      <div class="head">
+        <div class="eyebrow">DOWNLOADS</div>
+        <h2>Pop, on every<br/>screen you own.</h2>
+        <p>One account. Sessions sync (if you want them to). Pick your platform.</p>
+      </div>
+      <div class="download-grid">
+        <a class="dl-card featured" href="https://github.com/Hajorda/popodoro/releases/download/v1.0.3/popodoro-macos.zip">
+          <div class="glyph">
+            <!-- Apple logo -->
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.46 2.208 3.09 3.792 3.029 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/>
+            </svg>
+          </div>
+          <div>
+            <div class="plat-name">macOS</div>
+            <div class="plat-meta">UNIVERSAL · macOS 12+</div>
+          </div>
+          <div class="cta">Download .zip →</div>
+        </a>
+        <a class="dl-card" href="https://github.com/Hajorda/popodoro/releases/download/v1.0.3/popodoro-1.0.3-windows-installer.exe">
+          <div class="glyph">
+            <!-- Windows logo -->
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-13.051-1.351"/>
+            </svg>
+          </div>
+          <div>
+            <div class="plat-name">Windows</div>
+            <div class="plat-meta">x64 / ARM64 · Win 10+</div>
+          </div>
+          <div class="cta">Download .exe →</div>
+        </a>
+        <a class="dl-card" href="https://github.com/Hajorda/popodoro/releases/tag/v1.0.3">
+          <div class="glyph">
+            <!-- Terminal / Linux -->
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 14H4V6h16v12zM7.293 9.707a1 1 0 0 1 0-1.414l2-2a1 1 0 1 1 1.414 1.414L9.414 9l1.293 1.293a1 1 0 1 1-1.414 1.414l-2-2zM13 13a1 1 0 0 1 1-1h2a1 1 0 1 1 0 2h-2a1 1 0 0 1-1-1z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="plat-name">Linux</div>
+            <div class="plat-meta">.deb · .rpm · .AppImage · Flatpak</div>
+          </div>
+          <div class="cta">View releases →</div>
+        </a>
+        <a class="dl-card" href="#">
+          <div class="glyph">
+            <!-- Apple logo (iOS) -->
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.46 2.208 3.09 3.792 3.029 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/>
+            </svg>
+          </div>
+          <div>
+            <div class="plat-name">iOS</div>
+            <div class="plat-meta">iPHONE · iPAD · APPLE WATCH</div>
+          </div>
+          <div class="cta">Coming soon →</div>
+        </a>
+        <a class="dl-card" href="#">
+          <div class="glyph">
+            <!-- Android robot -->
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5S11 23.33 11 22.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zm-2.5-1C2.67 17 2 16.33 2 15.5v-7C2 7.67 2.67 7 3.5 7S5 7.67 5 8.5v7c0 .83-.67 1.5-1.5 1.5zm17 0c-.83 0-1.5-.67-1.5-1.5v-7c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v7c0 .83-.67 1.5-1.5 1.5zM15.53 2.16l1.3-1.3c.2-.2.2-.51 0-.71a.503.503 0 0 0-.71 0l-1.48 1.48A5.84 5.84 0 0 0 12 1c-.96 0-1.86.23-2.66.63L7.88.15a.503.503 0 0 0-.71 0c-.2.2-.2.51 0 .71l1.31 1.31A5.948 5.948 0 0 0 6 7h12c0-1.99-1.02-3.75-2.47-4.84zM10 5H9V4h1v1zm5 0h-1V4h1v1z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="plat-name">Android</div>
+            <div class="plat-meta">PHONE · TABLET · WEAR OS</div>
+          </div>
+          <div class="cta">Coming soon →</div>
+        </a>
+      </div>
+      <div style="margin-top: 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; position: relative; z-index: 1;">
+        <div style="font-family: var(--mono); font-size: 11px; color: color-mix(in oklab, var(--bg) 60%, transparent); letter-spacing: 0.1em;">
+          ALSO AVAILABLE: <a href="#" style="color: var(--pop); text-decoration: none;">WEB APP →</a> · <a href="#" style="color: var(--pop); text-decoration: none;">CHROME EXTENSION →</a>
+        </div>
+        <div style="font-family: var(--mono); font-size: 11px; color: color-mix(in oklab, var(--bg) 60%, transparent); letter-spacing: 0.1em;">
+          v1.0.4 · MAY 2026
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PRINCIPLES ════════════════ -->
+<section class="s">
+  <div class="container">
+    <div class="head">
+      <div class="eyebrow">PRINCIPLES</div>
+      <h2>Why Popodoro<br/>isn't another <em>tomato.</em></h2>
+      <p>Four rules we don't bend. Some pomodoro apps measure you. Pop accompanies you.</p>
+    </div>
+    <div class="principles">
+      <div class="principle">
+        <div class="k">01</div>
+        <h4>Notice, don't <em>nag</em>.</h4>
+        <p>Pop surfaces windows where you usually succeed. No red badges, no streak guilt.</p>
+      </div>
+      <div class="principle">
+        <div class="k">02</div>
+        <h4>One thing on screen.</h4>
+        <p>The timer is the room. Stats and settings live one tap away — never crowding focus.</p>
+      </div>
+      <div class="principle">
+        <div class="k">03</div>
+        <h4>Earned celebration.</h4>
+        <p>A session's end is the only place we go big. Pop pops, a single soft chime. That's it.</p>
+      </div>
+      <div class="principle">
+        <div class="k">04</div>
+        <h4>Calm motion.</h4>
+        <p>Easing: cubic-bezier(.2,.7,.3,1). Durations: 180–320ms. Never spring. Never bounce.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PRICING ════════════════ -->
+<section class="s" id="pricing" style="background: var(--dim);">
+  <div class="container">
+    <div class="head">
+      <div class="eyebrow">PRICING</div>
+      <h2>Fair. Forever.</h2>
+      <p>The whole timer is free. Pop's intelligence is the only thing behind a paywall.</p>
+    </div>
+    <div class="pricing">
+      <div class="plan">
+        <h3>Free</h3>
+        <div class="price">$0<small>/forever</small></div>
+        <ul>
+          <li>Full timer + four visual styles</li>
+          <li>Today view & basic stats</li>
+          <li>Up to 2 buddies for co-focus</li>
+          <li>Light & dark · all platforms</li>
+          <li>Local-only · no account needed</li>
+        </ul>
+        <a class="btn secondary" href="#downloads">Start free</a>
+      </div>
+      <div class="plan featured">
+        <h3>Pop Plus</h3>
+        <div class="price">$3<small>/mo · or $24/yr</small></div>
+        <ul>
+          <li>Everything in Free</li>
+          <li><strong>Golden Hours intelligence</strong></li>
+          <li>Unlimited buddies + co-focus rooms</li>
+          <li>End-to-end encrypted sync</li>
+          <li>Custom rhythms & tags</li>
+          <li>Calendar integration · iCal / Google</li>
+        </ul>
+        <a class="btn primary" style="background: var(--pop); color: var(--ink); box-shadow: none;" href="#downloads">Start 14-day trial</a>
+      </div>
+    </div>
+    <p style="text-align: center; margin-top: 24px; font-size: 13px; color: var(--ink-3);">
+      Students & teachers: <a href="#" style="color: var(--ink); text-decoration: underline;">50% off Plus</a> with a school email.
+    </p>
+  </div>
+</section>
+
+<!-- ════════════════ FAQ ════════════════ -->
+<section class="s" id="faq">
+  <div class="container">
+    <div class="head">
+      <div class="eyebrow">FAQ</div>
+      <h2>Things people<br/>ask Pop.</h2>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>How is Popodoro different from a regular pomodoro timer?</summary>
+        <p>Most timers wait for you. Pop watches your patterns — when you actually finish sessions vs. when you bail — and surfaces those windows as soft nudges. Same 25-minute timer, more useful around it.</p>
+      </details>
+      <details>
+        <summary>Does Popodoro track me?</summary>
+        <p>No. There are no third-party trackers, no analytics SDKs, no ad networks. Your sessions live on your device. If you turn on sync, it's end-to-end encrypted — we cannot see your tasks, tags, or times.</p>
+      </details>
+      <details>
+        <summary>Can I use Popodoro without an account?</summary>
+        <p>Yes. The free tier is local-only and never asks for an email. You only sign up if you want sync, Plus features, or to invite buddies by handle.</p>
+      </details>
+      <details>
+        <summary>What's a "golden hour"?</summary>
+        <p>A repeating time window where you historically finish what you start. Pop calculates them from your last ~30 sessions. You'll see your golden hours on the Stats page after about a week of use.</p>
+      </details>
+      <details>
+        <summary>How do I cancel or delete my account?</summary>
+        <p>Settings → Account → Delete account. We purge everything within 7 days. There's also a <a href="#" style="color: var(--ink); text-decoration: underline;">direct link</a> in the footer that doesn't require signing in.</p>
+      </details>
+      <details>
+        <summary>Is there a Linux version?</summary>
+        <p>Yes — .deb, .rpm, AppImage, and a Flatpak. We test on Ubuntu, Fedora, and Arch. There's also an unofficial AUR build the community maintains.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ CTA STRIP ════════════════ -->
+<section class="cta-strip">
+  <div class="container inner">
+    <div class="row-center" style="margin-bottom: 24px;">
+      <div class="pop-mascot wave" style="width: 140px; height: 140px;">
+        <div class="shadow"></div><div class="bump b1"></div><div class="bump b2"></div><div class="bump b3"></div>
+        <div class="body"></div><div class="cheek l"></div><div class="cheek r"></div>
+        <div class="eye l"><div class="glint"></div></div><div class="eye r"><div class="glint"></div></div><div class="mouth"></div>
+      </div>
+    </div>
+    <h2>Pop a session.<br/><em>Let's go.</em></h2>
+    <p>Free forever on every platform. 90 seconds to install. Pop's already practicing his wave.</p>
+    <a class="btn primary large" href="#downloads">Get Popodoro free</a>
+  </div>
+</section>
+
+<!-- ════════════════ FOOTER ════════════════ -->
+<footer>
+  <div class="container">
+    <div class="grid">
+      <div>
+        <span class="wordmark">p<span class="o"><span class="o-spacer">o</span></span>podoro<span class="accent">.</span></span>
+        <div class="brand-blurb">Your focus, popped. A calmer pomodoro by the small team at Popworks. Made with care in three time zones.</div>
+        <div style="display: flex; gap: 10px; margin-top: 16px;">
+          <a href="#" style="font-size: 12px; color: var(--ink-3); text-decoration: none;">@popodoro</a>
+          <span style="color: var(--ink-3);">·</span>
+          <a href="#" style="font-size: 12px; color: var(--ink-3); text-decoration: none;">github</a>
+          <span style="color: var(--ink-3);">·</span>
+          <a href="#" style="font-size: 12px; color: var(--ink-3); text-decoration: none;">changelog</a>
+        </div>
+      </div>
+      <div>
+        <h5>Product</h5>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#together">Pop Together</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#downloads">Download</a></li>
+          <li><a href="#">What's new</a></li>
+          <li><a href="#">Roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Platforms</h5>
+        <ul>
+          <li><a href="#">macOS</a></li>
+          <li><a href="#">Windows</a></li>
+          <li><a href="#">Linux</a></li>
+          <li><a href="#">iOS</a></li>
+          <li><a href="#">Android</a></li>
+          <li><a href="#">Web app</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Press kit</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Support</a></li>
+          <li><a href="#">Status</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="privacy.html" id="privacy-link">Privacy Policy</a></li>
+          <li><a href="terms.html" id="terms-link">Terms of Service</a></li>
+          <li><a href="#">Cookie notice</a></li>
+          <li><a href="#">Sub-processors</a></li>
+          <li><a href="delete-account.html" class="danger" id="delete-link">Delete my account</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container bottom" style="padding-left: 0; padding-right: 0;">
+      <div>© 2026 POPWORKS, INC. · MADE WITH ☕ AND 🍿</div>
+      <div class="legal">
+        <a href="privacy.html">PRIVACY</a>
+        <a href="terms.html">TERMS</a>
+        <a href="#">DPA</a>
+        <a href="delete-account.html">DELETE ACCOUNT</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav: scrolled state
+  const nav = document.getElementById('topnav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 12);
+  });
+
+  // Heatmap fill
+  (function fillHeatmap() {
+    const grid = document.getElementById('vis-heatmap');
+    if (!grid) return;
+    // 7 rows × 15 cols (hours 6-20). Pre-baked pattern matching the design system.
+    const heat = [
+      [0,0,0,1,3,3,2,0,0,2,2,1,1,0,0],
+      [0,0,0,2,3,3,3,0,1,1,0,0,0,0,0],
+      [0,0,0,0,2,3,2,0,0,1,2,2,0,0,0],
+      [0,0,0,1,2,2,1,0,0,0,1,2,1,0,0],
+      [0,0,0,2,3,2,2,0,0,1,1,0,0,0,0],
+      [0,0,0,0,0,1,1,0,0,0,0,0,0,0,0],
+      [0,0,0,0,0,0,1,1,0,0,0,0,0,0,0],
+    ];
+    for (let r = 0; r < 7; r++) {
+      for (let c = 0; c < 15; c++) {
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        const v = heat[r][c];
+        if (v === 1) cell.style.background = 'color-mix(in oklab, var(--pop) 30%, var(--surface-2))';
+        if (v === 2) cell.style.background = 'color-mix(in oklab, var(--pop) 65%, var(--surface-2))';
+        if (v === 3) cell.style.background = 'var(--pop)';
+        grid.appendChild(cell);
+      }
+    }
+  })();
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href');
+      if (id.length > 1) {
+        const el = document.querySelector(id);
+        if (el) {
+          e.preventDefault();
+          const top = el.getBoundingClientRect().top + window.scrollY - 64;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

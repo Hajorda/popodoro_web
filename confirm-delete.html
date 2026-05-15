@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="robots" content="noindex,nofollow"/>
+<title>Deleting your account — Popodoro</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FBF8F2;--surface:#fff;--border:#E8E1D4;--ink:#1C1A17;--ink-2:#5C544B;--ink-3:#8E867C;
+    --pop:#FFC857;--pop-deep:#E8A93A;--ember:#F26B4F;--sage:#7BB893;--bump:#FFF6E1;--bump-edge:#F2E6C6;
+    --display:'Instrument Serif',Georgia,serif;
+    --ui:'Manrope',system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ui);-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 16px;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:40px 36px;max-width:460px;width:100%;text-align:center;}
+  h1{font-family:var(--display);font-size:32px;font-weight:400;letter-spacing:-0.015em;margin:16px 0 10px;}
+  p{color:var(--ink-2);font-size:15px;line-height:1.6;margin:0 0 24px;}
+  .badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;padding:5px 12px;border-radius:999px;margin-bottom:8px;}
+  .badge.loading{background:var(--bg);color:var(--ink-3);border:1px solid var(--border);}
+  .badge.success{background:color-mix(in oklab,var(--sage) 15%,transparent);color:var(--sage);}
+  .badge.error{background:color-mix(in oklab,var(--ember) 12%,transparent);color:var(--ember);}
+  .spinner{width:40px;height:40px;border-radius:50%;border:3px solid var(--border);border-top-color:var(--pop);animation:spin .8s linear infinite;margin:0 auto 20px;}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;font-family:var(--ui);font-weight:600;font-size:14px;border:none;cursor:pointer;text-decoration:none;background:var(--ink);color:var(--bg);}
+  /* Pop mascot (condensed) */
+  .pop-mascot{--pop-accent:var(--pop);--pop-bump:var(--bump);--pop-bump-edge:var(--bump-edge);--pop-ink:var(--ink);position:relative;width:72px;height:72px;display:inline-block;margin:0 auto;}
+  .pop-mascot .bump{position:absolute;border-radius:50% 50% 46% 46%/60% 60% 40% 40%;background:linear-gradient(180deg,#fff 0%,var(--pop-bump) 70%,var(--pop-bump-edge) 100%);box-shadow:inset 0 -2px 0 var(--pop-bump-edge);}
+  .pop-mascot .bump.b1{left:14%;top:-2%;width:34%;height:34%}
+  .pop-mascot .bump.b2{left:36%;top:-10%;width:36%;height:36%}
+  .pop-mascot .bump.b3{left:58%;top:-2%;width:30%;height:30%}
+  .pop-mascot .body{position:absolute;left:6%;top:18%;right:6%;bottom:4%;background:linear-gradient(180deg,color-mix(in oklab,var(--pop-accent) 90%,#fff) 0%,var(--pop-accent) 60%,color-mix(in oklab,var(--pop-accent) 92%,var(--pop-ink)) 100%);border-radius:38% 38% 42% 42%/44% 44% 46% 46%;box-shadow:inset 0 -5px 0 color-mix(in oklab,var(--pop-accent) 88%,var(--pop-ink))}
+  .pop-mascot .eye{position:absolute;top:48%;width:10%;height:12%;background:var(--pop-ink);border-radius:50%}
+  .pop-mascot .eye.l{left:32%}.pop-mascot .eye.r{left:60%}
+  .pop-mascot .mouth{position:absolute;left:42%;top:68%;width:16%;height:8%;border-bottom:2px solid var(--pop-ink);border-radius:0 0 100% 100%/0 0 100% 100%}
+  /* resting eyes (sad) */
+  .pop-mascot.sad .eye{background:transparent;height:4%;width:12%;border-top:2.5px solid var(--pop-ink);border-radius:50%;top:52%}
+  .pop-mascot.sad .eye.l{left:30%}.pop-mascot.sad .eye.r{left:58%}
+  .pop-mascot.sad .mouth{width:8%;height:6%;left:46%}
+  .pop-mascot.celebrating .eye{width:14%;height:10%;border-radius:0;background:transparent;border-bottom:2.5px solid var(--pop-ink)}
+  .pop-mascot.celebrating .mouth{width:16%;height:13%;background:var(--pop-ink);border-bottom:0;border-radius:0 0 50% 50%/0 0 100% 100%;top:68%}
+</style>
+</head>
+<body>
+<div class="card" id="card">
+  <!-- Loading state -->
+  <div id="state-loading">
+    <div class="spinner"></div>
+    <div class="badge loading">Processing</div>
+    <h1>One moment…</h1>
+    <p>We're confirming your identity and permanently deleting your account.</p>
+  </div>
+
+  <!-- Success state (hidden) -->
+  <div id="state-success" style="display:none">
+    <div class="pop-mascot celebrating" style="margin-bottom:16px">
+      <div class="bump b1"></div><div class="bump b2"></div><div class="bump b3"></div>
+      <div class="body"></div>
+      <div class="eye l"></div><div class="eye r"></div><div class="mouth"></div>
+    </div>
+    <div class="badge success">Account deleted</div>
+    <h1>You're all clear.</h1>
+    <p>Your account and all associated data have been permanently deleted. We hope Pop got to accompany you for a good session or two.</p>
+    <a class="btn" href="index.html">Back to home</a>
+  </div>
+
+  <!-- Error state (hidden) -->
+  <div id="state-error" style="display:none">
+    <div class="pop-mascot sad" style="margin-bottom:16px">
+      <div class="bump b1"></div><div class="bump b2"></div><div class="bump b3"></div>
+      <div class="body"></div>
+      <div class="eye l"></div><div class="eye r"></div><div class="mouth"></div>
+    </div>
+    <div class="badge error">Something went wrong</div>
+    <h1>We hit a snag.</h1>
+    <p id="error-detail">The link may have expired. Deletion links are valid for 24 hours.</p>
+    <a class="btn" href="delete-account.html">Try again</a>
+  </div>
+</div>
+
+<script type="module">
+async function run() {
+  try {
+    // Fetch public Supabase config from server (anon key is safe to expose)
+    const config = await fetch('/api/config').then(r => r.json())
+
+    const { createClient } = await import(
+      'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+    )
+    const sb = createClient(config.supabaseUrl, config.supabaseAnonKey)
+
+    // Supabase auto-exchanges the magic-link hash in the URL for a session
+    const { data: { session }, error: sessionError } = await sb.auth.getSession()
+
+    if (sessionError || !session) {
+      showError('The deletion link is invalid or has expired. Please request a new one.')
+      return
+    }
+
+    // Call server to delete the authenticated user
+    const res = await fetch('/api/perform-delete', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${session.access_token}` },
+    })
+    const body = await res.json()
+
+    if (!res.ok) {
+      showError(body.error ?? 'Deletion failed. Please contact support.')
+      return
+    }
+
+    showSuccess()
+  } catch (err) {
+    console.error(err)
+    showError('An unexpected error occurred. Please try again.')
+  }
+}
+
+function showSuccess() {
+  document.getElementById('state-loading').style.display = 'none'
+  document.getElementById('state-success').style.display = ''
+}
+function showError(msg) {
+  document.getElementById('state-loading').style.display = 'none'
+  document.getElementById('error-detail').textContent = msg
+  document.getElementById('state-error').style.display = ''
+}
+
+run()
+</script>
+</body>
+</html>

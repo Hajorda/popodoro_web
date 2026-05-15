@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Delete account — Popodoro</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#FBF8F2; --surface:#fff; --surface-2:#F3EEE5; --dim:#F7F1E5;
+    --ink:#1C1A17; --ink-2:#5C544B; --ink-3:#8E867C; --border:#E8E1D4;
+    --pop:#FFC857; --ember:#F26B4F; --sage:#7BB893; --lavender:#9A8FE8;
+    --bump:#FFF6E1; --bump-edge:#F2E6C6;
+    --display:'Instrument Serif',Georgia,serif;
+    --ui:'Manrope',system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ui);line-height:1.6;min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
+
+  nav.top{padding:14px 32px;border-bottom:1px solid var(--border);background:var(--bg)}
+  nav.top .inner{max-width:680px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+  nav.top .wm{font-family:var(--display);font-size:22px;letter-spacing:-0.02em;color:var(--ink);text-decoration:none;display:inline-flex;align-items:baseline;line-height:1}
+  nav.top .wm .o{position:relative;display:inline-block}
+  nav.top .wm .o::before{content:"";position:absolute;left:50%;top:-22%;transform:translateX(-50%);width:8px;height:8px;border-radius:50%;background:var(--pop);box-shadow:0 0 0 1.2px var(--ink)}
+  nav.top .wm .o-sp{visibility:hidden}
+  nav.top .wm .acc{color:var(--pop)}
+  nav.top a.back{font-size:13px;color:var(--ink-2);text-decoration:none;font-weight:600}
+
+  main{flex:1;max-width:680px;margin:0 auto;padding:64px 32px;width:100%}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;color:var(--ember);text-transform:uppercase}
+  h1{font-family:var(--display);font-weight:400;font-size:clamp(44px,6.5vw,72px);letter-spacing:-0.025em;line-height:0.98;margin:14px 0 16px}
+  h1 em{font-style:italic}
+  .lede{font-size:17px;color:var(--ink-2);line-height:1.6;margin:0 0 32px}
+
+  /* Pop mascot — sad-ish (resting + a tear) */
+  .pop-mascot {
+    --pop-accent: var(--pop);
+    --pop-ink: var(--ink);
+    position: relative; width: 100px; height: 100px; display: inline-block;
+    margin-bottom: 16px;
+  }
+  .pop-mascot .shadow {position:absolute;left:14%;right:14%;bottom:-2%;height:8%;border-radius:50%;background:rgba(28,26,23,.1);filter:blur(2px);}
+  .pop-mascot .bump {position:absolute;border-radius:50% 50% 46% 46% / 60% 60% 40% 40%;background:linear-gradient(180deg,#fff 0%,var(--bump) 70%,var(--bump-edge) 100%);box-shadow:inset 0 -3px 0 var(--bump-edge);}
+  .pop-mascot .bump.b1{left:14%;top:-2%;width:34%;height:34%}
+  .pop-mascot .bump.b2{left:36%;top:-10%;width:36%;height:36%}
+  .pop-mascot .bump.b3{left:58%;top:-2%;width:30%;height:30%}
+  .pop-mascot .body{position:absolute;left:6%;top:18%;right:6%;bottom:4%;background:linear-gradient(180deg,color-mix(in oklab,var(--pop-accent) 90%,#fff) 0%,var(--pop-accent) 60%,color-mix(in oklab,var(--pop-accent) 92%,var(--pop-ink)) 100%);border-radius:38% 38% 42% 42% / 44% 44% 46% 46%;box-shadow:inset 0 -6px 0 color-mix(in oklab,var(--pop-accent) 88%,var(--pop-ink)), inset 0 2px 0 color-mix(in oklab,var(--pop-accent) 80%,#fff);}
+  .pop-mascot .eye{position:absolute;top:52%;width:12%;height:4%;background:transparent;border-top:3px solid var(--pop-ink);border-radius:50%}
+  .pop-mascot .eye.l{left:30%}
+  .pop-mascot .eye.r{left:58%}
+  .pop-mascot .mouth{position:absolute;left:46%;top:72%;width:8%;height:5%;border-bottom:2.5px solid var(--pop-ink);border-radius:50% 50% 0 0;transform:rotate(180deg)}
+  .pop-mascot .tear{position:absolute;left:62%;top:58%;width:5%;height:8%;background:#7AB7E0;border-radius:50% 50% 50% 50% / 30% 30% 70% 70%}
+
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px;margin-bottom:18px}
+  .card h2{font-family:var(--display);font-weight:400;font-size:24px;letter-spacing:-0.01em;margin:0 0 8px;line-height:1.15}
+  .card p{margin:0;font-size:14px;color:var(--ink-2);line-height:1.55}
+
+  .form{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px;margin-top:32px}
+  .form h2{font-family:var(--display);font-weight:400;font-size:28px;letter-spacing:-0.01em;margin:0 0 6px}
+  .form .sub{font-size:14px;color:var(--ink-2);margin:0 0 22px}
+  .label{font-family:var(--mono);font-size:10px;letter-spacing:0.14em;color:var(--ink-3);text-transform:uppercase;margin-bottom:8px;display:block}
+  .input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--bg);font-family:var(--ui);font-size:15px;color:var(--ink);outline:none;transition:border-color .15s;font-weight:500}
+  .input:focus{border-color:var(--ink);border-width:1.5px}
+  .row{margin-bottom:16px}
+
+  /* Reason chips */
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{padding:8px 12px;border-radius:999px;background:var(--bg);border:1px solid var(--border);font-size:13px;color:var(--ink-2);cursor:pointer;font-weight:500;transition:all .12s}
+  .chip:hover{color:var(--ink);border-color:var(--ink-3)}
+  .chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+  .checkbox{display:flex;gap:10px;align-items:flex-start;padding:14px;background:var(--dim);border-radius:12px;cursor:pointer;border:1px solid var(--border);transition:border-color .15s}
+  .checkbox:hover{border-color:var(--ink-3)}
+  .checkbox input{margin-top:3px;accent-color:var(--ember);flex-shrink:0}
+  .checkbox .ck-text{font-size:13px;color:var(--ink-2);line-height:1.5}
+  .checkbox .ck-text strong{color:var(--ink)}
+
+  .danger-zone{margin-top:20px;padding-top:20px;border-top:1px dashed var(--border)}
+  .btn-danger{
+    width:100%;padding:15px;border-radius:14px;border:none;
+    background:var(--ember);color:var(--bg);font-weight:700;font-size:15px;
+    font-family:var(--ui);cursor:pointer;
+    letter-spacing:-0.005em;
+    transition:background .15s, transform .1s;
+  }
+  .btn-danger:hover{background:color-mix(in oklab,var(--ember) 88%,var(--ink))}
+  .btn-danger:active{transform:translateY(1px)}
+  .btn-danger:disabled{background:var(--surface-2);color:var(--ink-3);cursor:not-allowed}
+
+  .btn-back{
+    display:block;text-align:center;margin-top:14px;padding:13px;
+    background:transparent;border:none;color:var(--ink-2);font-size:14px;
+    font-family:var(--ui);font-weight:600;cursor:pointer;text-decoration:none;
+  }
+  .btn-back:hover{color:var(--ink)}
+
+  .timeline{display:flex;flex-direction:column;gap:14px;margin:24px 0}
+  .timeline .step{display:flex;gap:14px;align-items:flex-start}
+  .timeline .step .dot{width:28px;height:28px;border-radius:50%;background:var(--surface);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;color:var(--ink-2);font-weight:700;flex-shrink:0}
+  .timeline .step.now .dot{background:var(--ember);border-color:var(--ember);color:var(--bg)}
+  .timeline .step .body{flex:1;font-size:14px;color:var(--ink-2);line-height:1.5;padding-top:3px}
+  .timeline .step .body strong{color:var(--ink);display:block}
+
+  footer{padding:32px 0;font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:0.06em;text-align:center;border-top:1px solid var(--border)}
+  footer a{color:var(--ink-2);text-decoration:none;margin:0 12px}
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="inner">
+    <a class="wm" href="index.html">p<span class="o"><span class="o-sp">o</span></span>podoro<span class="acc">.</span></a>
+    <a class="back" href="index.html">← Back to home</a>
+  </div>
+</nav>
+
+<main>
+  <div class="pop-mascot">
+    <div class="shadow"></div>
+    <div class="bump b1"></div><div class="bump b2"></div><div class="bump b3"></div>
+    <div class="body"></div>
+    <div class="eye l"></div><div class="eye r"></div>
+    <div class="mouth"></div>
+    <div class="tear"></div>
+  </div>
+  <div class="eyebrow">ACCOUNT · DELETION</div>
+  <h1>Sorry to see<br/>you go.</h1>
+  <p class="lede">No sign-in needed, no hoops. Enter the email on your account and we'll send a confirmation link. Within 7 days, everything's gone.</p>
+
+  <!-- What gets deleted -->
+  <div class="card">
+    <h2>What happens after you confirm</h2>
+    <div class="timeline">
+      <div class="step now">
+        <div class="dot">1</div>
+        <div class="body">
+          <strong>Right now</strong>
+          We email you a confirmation link, valid for 24 hours. Until you click it, nothing is touched.
+        </div>
+      </div>
+      <div class="step">
+        <div class="dot">2</div>
+        <div class="body">
+          <strong>Within 1 hour of confirming</strong>
+          Your account is locked and your handle is released. Live buddies see you go offline.
+        </div>
+      </div>
+      <div class="step">
+        <div class="dot">3</div>
+        <div class="body">
+          <strong>Within 7 days</strong>
+          Every encrypted blob, payment record (legally-required tax data excepted), and crash report tied to you is permanently erased from all storage and backups.
+        </div>
+      </div>
+      <div class="step">
+        <div class="dot">4</div>
+        <div class="body">
+          <strong>After 30 days</strong>
+          Even the email you used is hashed and rotated. We can no longer prove you ever had an account.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <form class="form" id="deleteForm">
+    <h2>Send the deletion link</h2>
+    <p class="sub">We'll email a one-time link to confirm. The link expires in 24 hours.</p>
+
+    <div class="row">
+      <label class="label" for="email">Email on your account</label>
+      <input class="input" id="email" type="email" required placeholder="you@example.com" autocomplete="email" />
+    </div>
+
+    <div class="row">
+      <label class="label">Why are you leaving? <span style="color:var(--ink-3);font-weight:500;text-transform:none;letter-spacing:0">— optional, helps Pop improve</span></label>
+      <div class="chips" id="reasonChips">
+        <span class="chip" data-r="too-many-nudges">Too many nudges</span>
+        <span class="chip" data-r="not-using">I'm not using it</span>
+        <span class="chip" data-r="switching">Switching to another app</span>
+        <span class="chip" data-r="privacy">Privacy concern</span>
+        <span class="chip" data-r="expensive">Pop Plus too expensive</span>
+        <span class="chip" data-r="bug">Hit a bug</span>
+        <span class="chip" data-r="other">Other</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <label class="checkbox">
+        <input type="checkbox" id="ack" required />
+        <span class="ck-text"><strong>I understand this is permanent.</strong> My encrypted sessions, buddies, streak, and golden-hour data will be erased and cannot be recovered. <a href="privacy.html#rights" style="color:var(--ink);text-decoration:underline">See the privacy policy →</a></span>
+      </label>
+    </div>
+
+    <div id="api-error" style="display:none;margin-top:12px;padding:10px 14px;border-radius:10px;background:color-mix(in oklab,#F26B4F 10%,transparent);border:1px solid color-mix(in oklab,#F26B4F 25%,transparent);font-size:13px;color:#c0432a;"></div>
+
+    <div class="danger-zone">
+      <button class="btn-danger" type="submit" id="submitBtn" disabled>Send deletion link</button>
+      <a class="btn-back" href="index.html">Wait, take me back</a>
+    </div>
+  </form>
+
+  <!-- Confirmation panel (shown post-submit) -->
+  <div id="confirmed" style="display:none;background:var(--surface);border:1px solid var(--sage);border-radius:20px;padding:32px;margin-top:32px;text-align:center">
+    <div style="font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--sage);text-transform:uppercase">EMAIL SENT</div>
+    <h2 style="font-family:var(--display);font-weight:400;font-size:32px;letter-spacing:-0.015em;margin:10px 0 8px">Check your inbox.</h2>
+    <p style="font-size:14px;color:var(--ink-2);margin:0 0 20px">If we have an account for that email, you'll receive a confirmation link within a minute. Click it to finalize deletion. The link expires in 24 hours.</p>
+    <a class="btn-back" href="index.html" style="display:inline-block;background:var(--ink);color:var(--bg);padding:12px 22px;border-radius:999px;font-weight:600;font-size:14px;text-decoration:none">Back to home</a>
+  </div>
+
+  <!-- Alternatives -->
+  <div style="margin-top:48px">
+    <div class="eyebrow" style="color:var(--ink-3)">BEFORE YOU GO · A FEW ALTERNATIVES</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px">
+      <div class="card" style="margin:0">
+        <h2 style="font-size:20px">Just pause Pop's nudges</h2>
+        <p>Settings → Pop's nudges → all off. Keep your streak and data, get total silence.</p>
+      </div>
+      <div class="card" style="margin:0">
+        <h2 style="font-size:20px">Export your data first</h2>
+        <p>Settings → Account → Download my data. JSON export, importable elsewhere.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  © 2026 POPWORKS, INC.
+  <a href="index.html">HOME</a>
+  <a href="privacy.html">PRIVACY</a>
+  <a href="terms.html">TERMS</a>
+</footer>
+
+<script>
+  // Reason chip toggle (multi-select)
+  document.querySelectorAll('#reasonChips .chip').forEach(c => {
+    c.addEventListener('click', () => c.classList.toggle('on'));
+  });
+
+  // Enable submit only when checkbox + valid email
+  const ack = document.getElementById('ack');
+  const emailEl = document.getElementById('email');
+  const btn = document.getElementById('submitBtn');
+  const errEl = document.getElementById('api-error');
+
+  function refresh() {
+    btn.disabled = !(ack.checked && emailEl.value && /.+@.+\..+/.test(emailEl.value));
+  }
+  ack.addEventListener('change', refresh);
+  emailEl.addEventListener('input', refresh);
+
+  document.getElementById('deleteForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errEl.style.display = 'none';
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    const reasons = Array.from(document.querySelectorAll('#reasonChips .chip.on'))
+      .map(c => c.dataset.r);
+
+    try {
+      const res = await fetch('/api/delete-account', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: emailEl.value, reasons }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error || 'Something went wrong.');
+
+      // Show confirmation panel, hide form
+      document.getElementById('deleteForm').style.display = 'none';
+      document.getElementById('confirmed').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      errEl.textContent = err.message;
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Send deletion link';
+    }
+  });
+</script>
+
+</body>
+</html>

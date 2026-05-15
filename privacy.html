@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Privacy Policy — Popodoro</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#FBF8F2; --surface:#fff; --surface-2:#F3EEE5; --dim:#F7F1E5;
+    --ink:#1C1A17; --ink-2:#5C544B; --ink-3:#8E867C; --border:#E8E1D4;
+    --pop:#FFC857; --pop-deep:#E8A93A; --ember:#F26B4F; --sage:#7BB893;
+    --display:'Instrument Serif',Georgia,serif;
+    --ui:'Manrope',system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ui);line-height:1.65;-webkit-font-smoothing:antialiased}
+  a{color:var(--ink);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--pop)}
+  a:hover{text-decoration-color:var(--ink)}
+
+  /* Top bar */
+  nav.top{position:sticky;top:0;z-index:50;background:color-mix(in oklab,var(--bg) 92%, transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+  nav.top .inner{max-width:880px;margin:0 auto;padding:14px 32px;display:flex;justify-content:space-between;align-items:center}
+  nav.top .wm{font-family:var(--display);font-size:22px;letter-spacing:-0.02em;color:var(--ink);text-decoration:none;display:inline-flex;align-items:baseline;line-height:1}
+  nav.top .wm .o{position:relative;display:inline-block}
+  nav.top .wm .o::before{content:"";position:absolute;left:50%;top:-22%;transform:translateX(-50%);width:8px;height:8px;border-radius:50%;background:var(--pop);box-shadow:0 0 0 1.2px var(--ink)}
+  nav.top .wm .o-sp{visibility:hidden}
+  nav.top .wm .acc{color:var(--pop)}
+  nav.top a.back{font-size:13px;color:var(--ink-2);text-decoration:none;font-weight:600}
+
+  /* Header */
+  header.page{max-width:880px;margin:0 auto;padding:80px 32px 56px}
+  header.page .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;color:var(--ink-3);text-transform:uppercase}
+  header.page h1{font-family:var(--display);font-weight:400;font-size:clamp(48px,7vw,80px);letter-spacing:-0.025em;line-height:0.98;margin:18px 0 14px}
+  header.page h1 em{font-style:italic}
+  header.page .meta{font-family:var(--mono);font-size:12px;color:var(--ink-3);letter-spacing:0.06em;display:flex;gap:16px;flex-wrap:wrap}
+  header.page .meta span strong{color:var(--ink);font-weight:600}
+
+  /* Layout */
+  .doc{max-width:880px;margin:0 auto;padding:0 32px 80px;display:grid;grid-template-columns:200px 1fr;gap:48px}
+  @media (max-width:780px){.doc{grid-template-columns:1fr;gap:24px}}
+  aside.toc{position:sticky;top:90px;align-self:start;font-size:13px}
+  @media (max-width:780px){aside.toc{position:relative;top:auto;padding:20px;background:var(--surface);border:1px solid var(--border);border-radius:14px}}
+  aside.toc h5{font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:0.16em;text-transform:uppercase;margin:0 0 14px}
+  aside.toc a{display:block;padding:6px 0;color:var(--ink-2);text-decoration:none;border-left:2px solid transparent;padding-left:12px;margin-left:-12px;transition:color .15s,border-color .15s}
+  aside.toc a:hover{color:var(--ink);border-left-color:var(--pop)}
+
+  main.content{font-size:15px;color:var(--ink-2)}
+  main.content h2{font-family:var(--display);font-weight:400;color:var(--ink);font-size:30px;letter-spacing:-0.015em;margin:48px 0 14px;line-height:1.1}
+  main.content h2:first-child{margin-top:0}
+  main.content h3{font-family:var(--ui);font-weight:700;color:var(--ink);font-size:16px;margin:24px 0 8px}
+  main.content p{margin:0 0 14px}
+  main.content ul{padding-left:0;list-style:none;margin:8px 0 18px}
+  main.content ul li{padding-left:22px;position:relative;margin-bottom:8px}
+  main.content ul li::before{content:"";position:absolute;left:4px;top:11px;width:6px;height:6px;border-radius:50%;background:var(--pop)}
+  main.content strong{color:var(--ink)}
+  main.content .callout{
+    background:var(--surface);border:1px solid var(--border);border-radius:14px;
+    padding:18px 22px;margin:18px 0;font-size:14px;
+    display:flex;gap:14px;align-items:flex-start;
+  }
+  main.content .callout .icon{
+    width:32px;height:32px;border-radius:10px;background:var(--pop);color:var(--ink);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    font-weight:700;font-size:14px;
+  }
+  main.content .callout p{margin:0}
+  main.content table{width:100%;border-collapse:collapse;margin:14px 0 22px;font-size:13px}
+  main.content th,main.content td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border)}
+  main.content th{font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:0.12em;text-transform:uppercase;font-weight:600;background:var(--dim)}
+  main.content td:first-child{font-weight:600;color:var(--ink)}
+
+  /* CTA card */
+  .cta-card{
+    background:var(--ink);color:var(--bg);border-radius:20px;
+    padding:28px;margin-top:48px;display:flex;align-items:center;gap:20px;
+  }
+  .cta-card h3{font-family:var(--display);font-weight:400;font-size:28px;letter-spacing:-0.015em;margin:0 0 6px;color:var(--bg)}
+  .cta-card p{margin:0;font-size:14px;color:color-mix(in oklab,var(--bg) 70%,transparent)}
+  .cta-card .btn{
+    padding:12px 18px;border-radius:999px;background:var(--pop);color:var(--ink);
+    text-decoration:none;font-weight:600;font-size:14px;flex-shrink:0;
+  }
+
+  /* Footer */
+  footer{border-top:1px solid var(--border);padding:32px 0;font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:0.06em;text-align:center}
+  footer a{color:var(--ink-2);text-decoration:none;margin:0 12px}
+  footer a.danger{color:var(--ember)}
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="inner">
+    <a class="wm" href="index.html">p<span class="o"><span class="o-sp">o</span></span>podoro<span class="acc">.</span></a>
+    <a class="back" href="index.html">← Back to home</a>
+  </div>
+</nav>
+
+<header class="page">
+  <div class="eyebrow">LEGAL · PRIVACY</div>
+  <h1>Privacy<br/><em>Policy.</em></h1>
+  <div class="meta">
+    <span><strong>Effective:</strong> May 15, 2026</span>
+    <span><strong>Last updated:</strong> May 15, 2026</span>
+    <span><strong>Version:</strong> 2.1</span>
+  </div>
+</header>
+
+<div class="doc">
+  <aside class="toc">
+    <h5>On this page</h5>
+    <a href="#tldr">TL;DR</a>
+    <a href="#data-we-collect">What we collect</a>
+    <a href="#how-we-use">How we use it</a>
+    <a href="#sharing">Sharing</a>
+    <a href="#sync">Sync & encryption</a>
+    <a href="#cookies">Cookies & analytics</a>
+    <a href="#rights">Your rights</a>
+    <a href="#children">Children</a>
+    <a href="#changes">Changes</a>
+    <a href="#contact">Contact</a>
+  </aside>
+
+  <main class="content">
+    <h2 id="tldr">TL;DR</h2>
+    <div class="callout">
+      <div class="icon">🍿</div>
+      <p><strong>The short version.</strong> Popodoro is offline-first. Your sessions live on your device. If you turn on sync, your data is end-to-end encrypted — we cannot read your tasks, tags, or timestamps. We don't sell your data, we don't run ads, we don't embed third-party trackers.</p>
+    </div>
+
+    <h2 id="data-we-collect">What we collect</h2>
+    <p>We collect the smallest amount of data we can to run Popodoro. Below is the complete list — there is nothing else.</p>
+
+    <table>
+      <thead><tr><th>Data</th><th>Why</th><th>Optional?</th></tr></thead>
+      <tbody>
+        <tr><td>Email address</td><td>Account sign-in and password reset</td><td>Required only if you create an account</td></tr>
+        <tr><td>Handle (@you)</td><td>So buddies can invite you</td><td>Required for Pop Together</td></tr>
+        <tr><td>Encrypted session blobs</td><td>Sync between your devices</td><td>Optional — sync is opt-in</td></tr>
+        <tr><td>Crash diagnostics</td><td>Fix bugs that affect focus</td><td>Optional — off by default</td></tr>
+      </tbody>
+    </table>
+
+    <p>We do <strong>not</strong> collect: your location, your contact list, your calendar, your browsing history, your installed apps, or any device identifier beyond what's needed to deliver app updates.</p>
+
+    <h2 id="how-we-use">How we use it</h2>
+    <ul>
+      <li><strong>Authentication.</strong> Your email and a securely-hashed password let you sign in across devices.</li>
+      <li><strong>Sync.</strong> Encrypted blobs are stored so your sessions appear on any device you sign in to.</li>
+      <li><strong>Pop Together.</strong> Your handle is visible to people you've added as buddies. Live presence is broadcast only while you're actively in a co-focus room.</li>
+      <li><strong>Service health.</strong> If you opt in, anonymous crash reports help us fix bugs faster.</li>
+    </ul>
+
+    <p>Pop's "golden hours" intelligence runs <strong>on your device</strong>. The model that predicts your best windows never leaves your phone or laptop. We don't see your patterns, even in aggregate.</p>
+
+    <h2 id="sharing">Who we share with</h2>
+    <p>We work with a small number of sub-processors to keep Popodoro running. Each one has signed a DPA and is restricted to the specific function listed.</p>
+
+    <table>
+      <thead><tr><th>Sub-processor</th><th>Purpose</th><th>Location</th></tr></thead>
+      <tbody>
+        <tr><td>Cloudflare</td><td>CDN, DNS, DDoS protection</td><td>Global</td></tr>
+        <tr><td>Stripe</td><td>Payments for Pop Plus</td><td>USA</td></tr>
+        <tr><td>Postmark</td><td>Transactional email (verification, receipts)</td><td>USA</td></tr>
+        <tr><td>Hetzner</td><td>Encrypted blob storage</td><td>Germany</td></tr>
+      </tbody>
+    </table>
+
+    <p>We never sell your data. We never share it with advertisers. If a government requests data, we will fight unwarranted requests and notify you unless legally prohibited.</p>
+
+    <h2 id="sync">Sync & encryption</h2>
+    <p>When you enable sync, Popodoro generates a private key derived from your password. Your data is encrypted on your device before it's uploaded. Our servers see ciphertext.</p>
+    <div class="callout">
+      <div class="icon">🔒</div>
+      <p><strong>If you forget your password, we cannot recover your synced data.</strong> That's the trade-off for true end-to-end encryption. Keep a recovery code (Settings → Account → Recovery code) in a password manager.</p>
+    </div>
+
+    <h2 id="cookies">Cookies & analytics</h2>
+    <p>The Popodoro web app uses one cookie — a session token — when you're signed in. That's it. No analytics cookies, no fingerprinting, no third-party scripts.</p>
+    <p>The marketing site (this one) uses no cookies and no analytics. Server logs are kept for 7 days for abuse prevention, then permanently deleted.</p>
+
+    <h2 id="rights">Your rights</h2>
+    <p>Wherever you are, you have these rights over your data:</p>
+    <ul>
+      <li><strong>Access.</strong> Download everything we have on you, in machine-readable JSON, from Settings → Account → Download my data.</li>
+      <li><strong>Correction.</strong> Edit your email or handle anytime in Settings.</li>
+      <li><strong>Deletion.</strong> Delete your account from Settings, or use the direct link below — no sign-in required.</li>
+      <li><strong>Portability.</strong> Your downloaded JSON can be imported into any app that supports the open <code>.pomodoro</code> format.</li>
+      <li><strong>Objection.</strong> Opt out of any optional data collection in Settings → Privacy.</li>
+    </ul>
+
+    <h2 id="children">Children</h2>
+    <p>Popodoro is not directed at children under 13 (or under 16 in the EU/UK). We do not knowingly collect data from anyone in those age ranges. If you believe a child has created an account, contact us and we'll delete it immediately.</p>
+
+    <h2 id="changes">Changes to this policy</h2>
+    <p>If we make material changes, we'll notify you in-app and by email at least 30 days before the change takes effect. Minor clarifications get logged in our <a href="#">changelog</a>. The current version is always at the top of this page.</p>
+
+    <h2 id="contact">Contact</h2>
+    <p>Email our privacy team at <a href="mailto:privacy@popodoro.app">privacy@popodoro.app</a>. For GDPR or CCPA requests, please use the subject line "Privacy request" so we can route it correctly. We respond within 7 days.</p>
+    <p>Our postal address: Popworks Inc., 2261 Market St #4521, San Francisco, CA 94114, USA.</p>
+
+    <div class="cta-card">
+      <div style="flex:1">
+        <h3>Want to delete your account?</h3>
+        <p>One link, no sign-in required. We purge everything within 7 days.</p>
+      </div>
+      <a class="btn" href="delete-account.html">Delete account →</a>
+    </div>
+  </main>
+</div>
+
+<footer>
+  © 2026 POPWORKS, INC.
+  <a href="index.html">HOME</a>
+  <a href="privacy.html">PRIVACY</a>
+  <a href="terms.html">TERMS</a>
+  <a href="delete-account.html" class="danger">DELETE ACCOUNT</a>
+</footer>
+
+</body>
+</html>
